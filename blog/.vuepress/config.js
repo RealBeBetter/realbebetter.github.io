@@ -6,7 +6,7 @@ module.exports = {
     ['link', { rel: 'icon', href: '/bitbug_favicon' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
-  base: '/myBlog/', // 部署到 Github 相关的配置
+  // base: '/myBlog/', // 部署到 Github 相关的配置
   theme: 'reco',
   themeConfig: {
     nav: [
