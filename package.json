@@ -1,7 +1,7 @@
 {
   "name": "Real's blog.",
   "version": "1.0.0",
-  "author": "reco_luan",
+  "author": "Real",
   "scripts": {
     "dev": "vuepress dev . --open --host \"localhost\"",
     "build": "vuepress build ."
@@ -10,5 +10,8 @@
     "vuepress": "1.8.2",
     "vuepress-theme-reco": "1.6.10"
   },
-  "description": "Resl's personal blog."
+  "description": "Resl's personal blog.",
+  "dependencies": {
+    "vuepress-plugin-serve": "^2.0.4"
+  }
 }

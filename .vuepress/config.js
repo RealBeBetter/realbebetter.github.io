@@ -7,8 +7,10 @@ module.exports = {
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
   base: '/blog/', // 部署到 Github 相关的配置
+  repo: 'https://github.com/RealBeBetter/blog',
   theme: 'reco',
   themeConfig: {
+    subSidebar: 'auto', //在所有页面中启用自动生成子侧边栏，原 sidebar 仍然兼容
     nav: [
       { text: 'Home', link: '/', icon: 'reco-home' },
       { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
@@ -50,14 +52,20 @@ module.exports = {
         'JVM-2-1',
         'JVM-2-2',
         'JVM-3',
-        'Mybatis'
+        'mybatis'
       ],
       '/docs/about/': [
           '',
       ],
       '/docs/basic/': [
           '',
-          'OperationSystem',
+          'operation-system',
+          'mysql',
+      ],
+      '/docs/frame/': [
+          '',
+          'spring',
+          'spring-mvc',
       ]
     },
     type: 'blog',
