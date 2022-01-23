@@ -3,10 +3,10 @@ module.exports = {
   description: 'Real\'s personal blog .',
   dest: 'public',
   head: [
-    ['link', { rel: 'icon', href: '/bitbug_favicon' }],
+    ['link', { rel: 'icon', href: '/my_favicon' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
-  base: '/myBlog/', // 部署到 Github 相关的配置
+  base: '/blog/', // 部署到 Github 相关的配置
   theme: 'reco',
   themeConfig: {
     nav: [
@@ -28,7 +28,7 @@ module.exports = {
       { text: 'Contact',
         icon: 'reco-mail',
         items: [
-          { text: 'GitHub', link: 'https://github.com/Akoreyoshi', icon: 'reco-github' },
+          { text: 'GitHub', link: 'https://github.com/RealBeBetter', icon: 'reco-github' },
           { text: 'Gitee', link: 'https://gitee.com/realBeBetter', icon: 'reco-mayun' },
           { text: 'CSDN', link: 'https://blog.csdn.net/qq_43103529?spm=1000.2115.3001.5343', icon: 'reco-csdn' },
           { text: '关于我', link: '/docs/about/', icon: 'reco-message' },
@@ -36,19 +36,19 @@ module.exports = {
       }
     ],
     sidebar: {
-      '/docs/theme-reco/': [
-        '',
-        'theme',
-        'plugin',
-        'api'
-      ],
       '/docs/java/': [
         '',
         'basic-2',
         'basic-3',
         'basic-4',
+        'basic-5',
+        'basic-6',
+        'basic-7',
+        'basic-8',
+        'basic-9',
         'JVM-1',
-        'JVM-2',
+        'JVM-2-1',
+        'JVM-2-2',
         'JVM-3',
         'Mybatis'
       ],
@@ -63,10 +63,10 @@ module.exports = {
     type: 'blog',
     // 博客设置
     blogConfig: {
-      category: {
+      /*category: {
         location: 2, // 在导航栏菜单中所占的位置，默认2
         text: 'Category' // 默认 “分类”
-      },
+      },*/
       tag: {
         location: 3, // 在导航栏菜单中所占的位置，默认3
         text: 'Tag' // 默认 “标签”
