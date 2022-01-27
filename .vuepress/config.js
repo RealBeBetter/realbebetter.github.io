@@ -1,9 +1,9 @@
 module.exports = {
-  title: "Real's blog.",
+  title: "Welcome to Real's blog.",
   description: 'Real\'s personal blog .',
   dest: 'public',
   head: [
-    ['link', { rel: 'icon', href: '/my_favicon' }],
+    ['link', { rel: 'icon', href: '/favicon' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
   base: '/blog/', // 部署到 Github 相关的配置
@@ -17,14 +17,17 @@ module.exports = {
       { text: 'Docs',
         icon: 'reco-message',
         items: [
-          { text: 'frame', link: '/docs/frame/' }
+          { text: 'Frame', link: '/docs/frame/' },
+          { text: 'Database', link: '/docs/database/' },
+          { text: 'Project', link: '/docs/project/' },
         ]
       },
       { text: 'Blog',
         icon: 'reco-message',
         items: [
-          { text: 'java', link: '/docs/java/' },
-          { text: 'basic', link: '/docs/basic/' },
+          { text: 'Java', link: '/docs/java/' },
+          { text: 'Basic', link: '/docs/basic/' },
+          { text: 'Other', link: '/docs/other/' },
         ]
       },
       { text: 'Contact',
@@ -52,7 +55,6 @@ module.exports = {
         'JVM-2-1',
         'JVM-2-2',
         'JVM-3',
-        'mybatis'
       ],
       '/docs/about/': [
           '',
@@ -62,11 +64,23 @@ module.exports = {
           'operation-system',
           'mysql',
       ],
+      '/docs/other/': [
+        '',
+      ],
       '/docs/frame/': [
           '',
-          'spring',
+          'mybatis',
           'spring-mvc',
-      ]
+      ],
+      '/docs/database/': [
+          '',
+          'redis-1',
+          'redis-2',
+          'redis-3',
+      ],
+      '/docs/project/': [
+          '',
+      ],
     },
     type: 'blog',
     // 博客设置

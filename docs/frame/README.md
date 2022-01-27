@@ -1,97 +1,1797 @@
 ---
-title: 【Java】Mybatis框架
-date: 2021-05-24
+title: 【Java】Spring框架
+date: 2021-05-18
 tags:
 - Java
 - Frame
+- Spring
 ---
 
-## 十七、Mybatis简介
+# 【Java】Spring框架
 
-### 原始jdbc操作
+## 一、Spring简介
 
-```java
-// 注册驱动
-Class.forname("com.mysql.jdbc.Driver");
-// 获取连接
-Connection conn = DriverManager.getConnection("jdbc:mysql:///test", "root", "123456");
-// 获得Statement
-PreparedStatement ps = conn.prepareStatement("select id, name, password from user");
-// 执行查询
-ResultSet rs = ps.executeQuery();
-// 遍历结果集
-while (rs.next()) {
-    // 封装实体
-    User user = new User();
-    user.setId(rs.getInt("id"));
-    user.setUsername(rs.getString("name"));
-    user.setPassword(rs.getString("password"));
-    // user 实体封装完毕
-    System.out.println(user);
-}
-// 释放资源
-rs.close();
-ps.close();
-conn.close();
+### 简介
+
+Spring是分层的Java SE/EE应用full-stack轻量级开源框架，以IoC（Inverse Of Control：反转控制）和AOP（Aspect Oriented Programming：面向切面编程）为内核。提供了展现层SpringMVC和持久层Spring JDBCTemplate以及业务层事务管理等众多的企业级应用技术，还能整合开源世界众多著名的第三方框架和类库，逐渐成为使用最多的Java EE企业应用开源框架。
+
+现在，2017年9月发布了最新的Spring版本——**Spring 5.0通用版（GA）**
+
+### 优势
+
+- 方便解耦,简化开发
+  - 通过Spring提供的IoC容器，可以将对象间的依赖关系交由Spring进行控制，避免硬编码所造成的过度耦合。
+  - 用户也不必再为单例模式类、属性文件解析等这些很底层的需求编写代码，可以便专注于上层的应用
+- AOP编程的支持
+  - 通过Spring的AOP功能，方便进行面向切面编程，许多不容易用传统OOP实现的功能可以通过AOP轻松实现。
+- 声明式事务的支持
+  - 可以将我们从单调烦闷的事务管理代码中解脱出来，通过声明式方式灵活的进行事务管理，提高开发效率和质量。
+- 方便程序的测试
+  - 可以用非容器依赖的编程方式进行几乎所有的测试工作，测试不再是昂贵的操作，而是随手可做的事情。
+- 方便集成各种优秀框架
+  - Spring对各种优秀框架(Struts、 Hibemate、 Hessian、 Quartz等)的支持。
+- 降低JavaEE API的使用难度
+  - Spring对JavaEE API （如JDBC、JavaMail、 远程调用等）进行了薄薄的封装层，使这些API的使用难度大为降低。
+- Java源码是经典学习范例
+  - Spring的源代码设计精妙、结构清晰、匠心独用，处处体现着大师对Java设计模式灵活运用以及对Java技术的高深造诣。它的源代码无疑是Java技术的最佳实践的范例。
+
+## 二、Spring体系结构
+
+![13417101-97a7215f5b7cd92f](https://i.loli.net/2021/03/19/SscPZ4dLbaM96Ht.png)
+
+其中，核心容器最为关键，SpEL——Spring Expression Language（spring表达式语言），Beans——对象，Core——核心，Context——上下文。
+
+### Spring程序开发步骤
+
+![image-20210319193822382](https://i.loli.net/2021/03/19/Wgu3HXtclv5ph2G.png)
+
+### Spring项目（Maven）的创建
+
+①首先在idea的工作空间workspace文件夹下创建一个名为Spring的文件夹
+
+②在idea中选择文件，打开File，选择刚刚创建的文件夹Spring，打开
+
+![image-20210320130025262](https://i.loli.net/2021/03/20/GopryVadYs986Iu.png)
+
+③在Idea中的操作：点击刚刚的Spring，之后点击新建一个Module，选择Maven之后点击Next
+
+![image-20210320130313515](https://i.loli.net/2021/03/20/Z4J6wy2pRANvPoK.png)
+
+④选择设定的Module名称为`itheima_spring_aop`（Name），之后选择Finish完成创建。之后以相同的方式创建`itheima_spring_ioc`项目。
+
+![image-20210320130435864](https://i.loli.net/2021/03/20/IY9yCkxndOtTqcK.png)
+
+⑤选择刚刚创建的aop项目，选择Project Structure，配置好jdk并选择下面的文件夹为刚刚创建的aop项目文件夹。
+
+![image-20210320130829378](https://i.loli.net/2021/03/20/RAHNOrc8DKEtfip.png)
+
+⑥之后选择下面的Facets选项，点击+号，选择web项目，添加
+
+![image-20210320130949894](https://i.loli.net/2021/03/20/UWwcSqdThx6Mv5i.png)
+
+⑦在下一个界面修改上下两个选项的文件路径名，并修改为一般惯用的路径文件
+
+D:\Java_Files\Spring\itheima_spring_aop\src\main\webapp\WEB-INF\web.xml
+
+D:\Java_Files\Spring\itheima_spring_aop\src\main\webapp
+
+![image-20210320131111838](https://i.loli.net/2021/03/20/j2P6A8TmyzhXex5.png)
+
+⑧从第三步开始，以相同的方式创建`itheima_spring_ioc`Module。至此，项目创建完成。
+
+### Spring工程实际运用
+
+①导入坐标
+
+②创建Bean
+
+③创建applicationContext.xml文件
+
+④在配置文件中进行配置
+
+⑤创建ApplicationContext对象getBean
+
+实际操作：
+
+一、打开Module下面的pom.xml文件，添加Spring
+
+![image-20210319214610086](https://i.loli.net/2021/03/19/7PMkE6qpmuUNOR1.png)
+
+添加的部分代码如下：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+</dependencies>
 ```
 
-原始的jdbc查询操作中，一共是上述的几个步骤。如果是插入操作，则使用的是占位符，需要设置占位符操作。
+二、在需要的路径创建一个接口，并为该接口提供实现
 
-上述的jdbc代码都是一些模板代码，重复性、耦合性比较高。
+![image-20210319214739183](https://i.loli.net/2021/03/19/NXceVSMUgJRWEmz.png)
 
-针对这种情况我们的解决方案如下
+![image-20210319214818684](https://i.loli.net/2021/03/19/SOzAv8Kg1fpDGHn.png)
 
-![image-20210406173257709](https://i.loli.net/2021/04/06/6pxr8QUY5emiIoq.png)
+三、在resources文件夹下创建applicationContext.xml配置文件（该名字可以自己定义）
 
-### 什么是Mybatis
+![image-20210319214958926](https://i.loli.net/2021/03/19/pA6SrigklV5DEJH.png)
 
-![image-20210406173623492](https://i.loli.net/2021/04/06/oEAnjiZ2zhS4bPB.png)
+四、配置applicationContext.xml配置文件，在Beans中添加Bean对象，设置自定义一个id（名字可自定义，但是后续需要使用），并且需要用到之前接口的实现类的文件名（`class="com.itheima.dao.impl.UserDaoImpl"`），具体配置如图
 
-①Mybatis是一个持久层框架
+![image-20210319215331677](https://i.loli.net/2021/03/19/HODlN64wTnz5BJq.png)
 
-②Mybatis可以隐藏jdbc繁杂的API
+五、在Java目录下创建一个新的Module，创建一个新的class文件。本class文件就是真正用到spring的Java文件，我这里根据课程创建的，一样是demo->UserDaoDemo
 
-③只需要关注sql语句，不需要关注其他繁杂的信息
+![image-20210319215632207](https://i.loli.net/2021/03/19/LiMCQJOwIcAvDBr.png)
 
-④Mybatis会自动完成实体对象与表单数据的关系映射
+此class中的代码部分，configLocation参数就是刚才编写的配置文件名（不用写路径，之后自己会根据寻找文件）。UserDao类的实例对象后的`getBean()`方法的参数就是之前配置文件中的id。
 
-## 十八、Mybatis的快速入门
+至此为止，简单工程的实际创建使用暂时结束。
 
-### 开发步骤
+最终创建成功自己简单运行的结果：
 
-①添加Mybatis的坐标
+![image-20210319214202620](https://i.loli.net/2021/03/19/yjoBRKSHUz5TapP.png)
 
-②创建User数据表
+在此次使用过程中，一共使用了五个文件。两个配置文件：
 
-③创建User实体类
+```java
+pom.xml    					// 配置Spring详细参数
+applicationContext.xml		//配置使用Bean对象
+```
 
-④编写映射文件UserMapper.xml
+一个接口文件，两个class文件，分别对应接口的实现方法以及客户端代码对于接口方法的获取调用（使用Spring的过程）。
 
-⑤编写核心文件SqlMapConfig.xml
+## 三、Spring配置文件详解
 
-⑥编写测试类并运行
+在Spring项目中，上述的项目中存在两个配置文件，其中有一个为创建Spring项目时生成的[pom.xml]()，该文件的作用是用来导入Spring框架的。另外一个则是涉及到Spring项目的使用，该配置文件需要用户自己来创建使用。需要在Beans中创建新的Bean对象，设置**ID属性以及class属性**来获取对象。
 
-### 代码实现
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl"></bean>
+```
 
-项目的结构如下
+此时，该行代码使用的id需要在这整个xml文件中唯一，是标识确认，不能和其他的Bean对象的id重复（类比于前端），后面的class是全限定名。默认的反射是通过无参构造创建对象的，这样配置需要保证UserDaoImpl中存在无参构造，如果没有无参构造则不能创建成功。
 
-![image-20210406184944348](https://i.loli.net/2021/04/06/TuHwnWAfxhikMjU.png)
+> id：Bean实例在Spring容器中的唯一标识
+>
+> class：Bean的全限定名
 
-①添加Mybatis的坐标
+**Bean标签范围配置**
 
-在项目的pom.xml文件中添加依赖坐标，主要需要使用到以下的这些坐标
+![image-20210320133502713](https://i.loli.net/2021/03/20/ygN2V19O7eIpaRn.png)
+
+默认在xml配置文件中不写scope，缺省值是singleton。表示在创建Bean对象时，只会有一例出现在Spring中；而设置prototype时，则根据创建的数量，会有相应的数量的Bean对象存在于Spring中。
+
+测试方法：创建多个UserDao对象实例，打印输出多个UserDao的地址，看看是否不同的实例会不会输出相同的地址值。
+
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl" scope="singleton"></bean>
+```
+
+**作用范围、创建时机以及生存周期**
+
+![image-20210320140119868](https://i.loli.net/2021/03/20/PiKSW3jARqzlCh9.png)
+
+```xml
+init-method：指定类中的初始化方法名称
+destroy-method：指定类中的销毁方法名称
+```
+
+### Bean实例化的三种方式
+
+> 无参构造方法实例化
+>
+> 工厂静态方法实例化
+>
+> 工厂实例方法实例化
+
+**工厂静态方法实例化**
+
+①创建静态工厂类
+
+![image-20210320145902342](https://i.loli.net/2021/03/20/dUpeIBam9hgbR24.png)
+
+之后跳转到之前的applicationContext.xml中，修改之前的Bean实例化语句为
+
+```xml
+<bean id="userDao" class="com.itheima.factory.StaticFactory" factory-method="getUserDao"></bean>
+```
+
+如果方法内部不为静态的（工厂实例方法），则需要先获取工厂的Bean对象，之后再获取工厂的Bean方法。
+
+**工厂实例方法实例化**
+
+①创建一个DynamicFactory的对象，代码方法的区别就是static的有无
+
+![image-20210320150934614](https://i.loli.net/2021/03/20/fn9Bs7b61oUxNRP.png)
+
+②修改xml文件配置参数
+
+```xml
+<bean id="factory" class="com.itheima.factory.DynamicFactory"></bean>
+<bean id="userDao" factory-bean="factory" factory-method="getUserDao"></bean>
+```
+
+### SpringBean的依赖注入分析
+
+![image-20210320153714415](https://i.loli.net/2021/03/20/EVCqk91D3LmYaJv.png)
+
+![image-20210320153908461](https://i.loli.net/2021/03/20/C1aVNsphekEWMDK.png)
+
+### Bean的依赖注入概念
+
+依赖注入（Dependency Injection）：是Spring框架核心IOC的具体实现
+
+![image-20210320154202752](https://i.loli.net/2021/03/20/J6smLGFtQBdcr4T.png)
+
+在上述的应用实例中，将UserDao注入到UserService中的方法有两个：构造方法、set方法
+
+![image-20210320155649812](https://i.loli.net/2021/03/20/BhtNecQ9WYjdqzP.png)
+
+### Bean的依赖注入的数据类型
+
+注入数据的三种类型
+
+> 普通数据类型
+>
+> 引用数据类型
+>
+> 集合数据类型
+
+**普通数据类型和引用数据类型的注入**
+
+在实现类中写setter方法
+
+```java
+public class UserDaoImpl implements UserDao {
+
+    private String userName;
+    private int age;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public void save() {
+        System.out.println(userName + "=====" + age);
+        System.out.println("save running...");
+    }
+}
+```
+
+因为是**普通数据和引用数据类型**，我们直接使用`value`对这两个变量进行赋值。
+
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+	<property name="userName" value="zhangsan"></property>
+	<property name="age" value="20"></property>
+</bean>
+```
+
+最终运行效果：
+
+![image-20210329151435781](https://i.loli.net/2021/03/29/HoQR3NZV84KlfE6.png)
+
+**集合数据类型的注入**
+
+针对集合类型，我们选取Map以及List集合。
+
+**List集合的配置文件**
+
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+    <property name="strList">
+        <list>
+            <value>aaa</value>
+            <value>bbb</value>
+            <value>ccc</value>
+        </list>
+    </property>
+</bean>
+```
+
+具体步骤还是和之前的普通类型数据的步骤类似。在实现类中添加相关参数的setter方法，之后再save方法中添加打印输出。
+
+```java
+private List<String> strList;
+private Map<String, User> userMap;
+private Properties properties;
+
+public void setStrList(List<String> strList) {
+    this.strList = strList;
+}
+
+public void setUserMap(Map<String, User> userMap) {
+    this.userMap = userMap;
+}
+
+public void setProperties(Properties properties) {
+    this.properties = properties;
+}
+```
+
+```java
+@Override
+public void save() {
+    System.out.println(strList);
+    System.out.println(userMap);
+    System.out.println(properties);
+    System.out.println("save running...");
+}
+```
+
+运行结果正常，输出`[aaa, bbb, ccc]`。
+
+**Map集合的配置文件**
+
+针对Map集合数据类型，Map实际上属于一种键值对，并非单纯的集合类型，所以不同于List集合。
+
+```java
+package com.itheima.domain;
+
+public class User {
+
+    private String name;
+    private String addr;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", addr='" + addr + '\'' +
+                '}';
+    }
+}
+```
+
+编写完上述的集合之后，开始对配置文件进行编写
+
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+    <property name="strList">
+        <list>
+            <value>aaa</value>
+            <value>bbb</value>
+            <value>ccc</value>
+        </list>
+    </property>
+    <property name="userMap">
+        <map>
+            <entry key="u1" value-ref="user1"/>
+        </map>
+    </property>
+    <property name="properties">
+        <props>
+            <prop key="p1">properties1</prop>
+            <prop key="p2">properties2</prop>
+        </props>
+    </property>
+</bean>
+
+<bean id="user1" class="com.itheima.domain.User">
+    <property name="name" value="tom"/>
+    <property name="addr" value="beijing"/>
+</bean>
+<bean id="userService" class="com.itheima.service.impl.UserServiceImpl"/>
+```
+
+这次的配置不同于在bean中直接添加list的value值，需要添加新的bean对象，并且在新的bean中添加新的property，在property中添加新的value，这次的name与之前的User类中的name和addr相对应，使得键值的两个属性值能够对应上。
+
+需要注意的是，**value-ref的值和下面的bean中的id需要保持一致，而entry中的key则没有要求**。
+
+运行之后的值为
+
+> [aaa, bbb, ccc]
+> {u1=User{name='tom', addr='beijing'}}
+> {p1=properties1, p2=properties2}
+> save running...
+
+**properties配置文件**
+
+```
+<property name="properties">
+    <props>
+        <prop key="p1">properties1</prop>
+        <prop key="p2">properties2</prop>
+    </props>
+</property>
+```
+
+配置方法与List集合类似。
+
+### Spring引用其他配置文件
+
+因为项目大小的问题，我们通常将Spring项目拆分，引入其他配置文件。将部分配置拆分到其他配置文件中，而在Spring主配置文件中通过import标签进行加载，这种方法通常就是分模块开发。
+
+```xml
+<import resource = "applicationContext-xxx.xml"/>
+```
+
+**知识要点总结**
+
+![image-20210329164325288](https://i.loli.net/2021/03/29/6nLDeHpaQkiUvy2.png)
+
+## 四、Spring相关API
+
+### ApplicationContext的继承体系
+
+applicationContext：接口类型，代表应用上下文，可以通过其实例获得Spring容器中的Bean对象。
+
+![image-20210329235558733](https://i.loli.net/2021/03/29/dlIcjKuLtHzpibX.png)
+
+### ApplicationContext的实现类
+
+#### ClassPathXmlApplicationContext
+
+从类的根路径下加载配置文件
+
+#### FileSystemXmlApplicationContext
+
+从磁盘路径上加载配置文件，配置文件可以在磁盘的任意位置
+
+#### AnnotationConfigApplicationContext
+
+当使用注解配置容器对象时，需要使用此类来创建Spring容器，它用来读取注解
+
+#### getBean()方法使用
+
+![image-20210330000200641](https://i.loli.net/2021/03/30/bH5D81pfLVenytJ.png)
+
+在之前的代码中，使用UserService类getBean()方法。一共有两种方式，一种是通过id方式，一种是通过类对象方式。
+
+```java
+public class UserController {
+    public static void main(String[] args) {
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+//      UserService userService = (UserService) app.getBean("userService");
+        UserService userService = app.getBean(UserService.class);
+        userService.save();
+    }
+}
+```
+
+但是当容器中存在某一类的多个对象时，需要用id来获取，因为用类来获取会导致无法分清到底使用哪一个。
+
+### Spring的重点API
+
+```java
+ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+app.getBean("id");
+app.getBean(Class);
+```
+
+## 五、Spring配置数据源
+
+### 数据源（连接池）的使用
+
+- 数据源（连接池）是为了提高程序性能出现的
+- 事先实例化数据源，初始化部分连接资源
+- 使用连接资源时从数据源中获取
+- 使用完毕后将连接资源归还给数据源
+
+常见的数据源（连接池）有：DBCP、C3P0、Druid、BoneCP等。
+
+### 数据源开发步骤
+
+第一步：在pom.xml中添加依赖
 
 ```xml
 <dependencies>
     <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.23</version>
+        <version>5.1.32</version>
     </dependency>
     <dependency>
-        <groupId>org.mybatis</groupId>
-        <artifactId>mybatis</artifactId>
-        <version>3.5.6</version>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.1.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.10</version>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+其中，添加的依赖有mysql、druid、c3p0等。
+
+第二步：创建`DataSourceTest`类进行测试，两者的使用都是相似的步骤。设置好对应的四个参数，之后直接连接即可。
+
+```java
+public class DataSourceTest {
+
+    @Test
+    // 测试手动创建 c3p0 数据源
+    public void test1() throws Exception {
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUser("root");
+        dataSource.setPassword("123456");
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
+    }
+
+    @Test
+    // 测试手动创建 druid 数据源
+    public void test2() throws Exception {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUsername("root");
+        dataSource.setPassword("123456");
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
+    }
+}
+```
+
+但是，这样的操作存在耦合性较高的弊端，不利于后期的修改更新操作。因此我们需要用到抽取配置文件的方式解耦合。
+
+### 抽取properties配置文件
+
+第一步：编写配置文件。新建file-> **jdbc.properties**。
+
+```properties
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:myql://localhost:3306/test
+jdbc.username=root
+jdbc.password=123456
+```
+
+第二步：使用配置文件获取到相关的参数，完成解耦合的操作。
+
+```java
+@Test
+// 测试手动创建 c3p0 数据源（加载properties配置文件形式）
+public void test3() throws Exception {
+    // 读取配置文件
+    ResourceBundle rb = ResourceBundle.getBundle("jdbc");
+    String driver = rb.getString("jdbc.driver");
+    String url = rb.getString("jdbc.url");
+    String username = rb.getString("jdbc.username");
+    String password = rb.getString("jdbc.password");
+    ComboPooledDataSource dataSource = new ComboPooledDataSource();
+    dataSource.setDriverClass(driver);
+    dataSource.setJdbcUrl(url);
+    dataSource.setUser(username);
+    dataSource.setPassword(password);
+
+    Connection connection = dataSource.getConnection();
+    System.out.println(connection);
+    connection.close();
+}
+```
+
+整体的使用步骤多了一步：从配置文件中抽取到相关参数。之后的使用中根据抽取到的参数set相关的使用参数即可。
+
+需要注意的是用到ResourceBundle类中的getBundle方法，获取到之前创建的**jdbc.properties**配置文件。这里的使用方法是根据配置文件名字自动找寻到配置文件的所在，完成资源绑定。之后创建String对象，获得配置文件中的具体内容。
+
+### Spring配置数据源
+
+可以将DataSource的创建权交给Spring容器去完成。
+
+步骤总结：①在pom.xml中引入Spring容器。
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.0.5.RELEASE</version>
+</dependency>
+```
+
+②新建applicationContext.xml配置文件，在applicationContext.xml文件中添加bean对象
+
+```xml
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test"></property>
+    <property name="user" value="root"></property>
+    <property name="password" value="123456"></property>
+</bean>
+```
+
+注意：此处的name应该跟从之前的c3p0数据源的四种参数，将下列的setDriverClass的四种方法，去掉之前的set，并将首字母改成小写添加进去。由于是普通数据类型，直接使用value赋值即可，不需要采用引用。
+
+```java
+ComboPooledDataSource dataSource = new ComboPooledDataSource();
+dataSource.setDriverClass(driver);
+dataSource.setJdbcUrl(url);
+dataSource.setUser(username);
+dataSource.setPassword(password);
+```
+
+③在java类中添加相关的程序代码
+
+```java
+@Test
+// 测试 Spring 容器创建产生数据源
+public void test4() throws Exception {
+    ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+    DataSource dataSource =  app.getBean(DataSource.class);
+    Connection connection = dataSource.getConnection();
+    System.out.println(connection);
+    connection.close();
+}
+```
+
+注意：这种通过.class方法getBean只适用于applicationContext.xml配置文件只有一个数据源bean的情况；若有多个，应该通过id获取到相关的Bean对象。
+
+### 使用Spring加载的方式抽取jdbc配置文件
+
+目的是使用applicationContext.xml抽取jdbc.properties配置文件信息。
+
+![image-20210330142832582](https://i.loli.net/2021/03/30/FGkrwS4HsVX2LgP.png)
+
+步骤：①首先引入context命名空间
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+</bean>
+```
+
+将第一行复制，之后添加:context，将其中beans的部分修改为context。网站部分也一样复制修改，前后两个部分beans的内容修改为context。
+
+②导入properties配置文件信息
+
+```xml
+<!--加载外部的properties配置文件-->
+<context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+```
+
+③值修改为`value="${key}"`的形式。
+
+```xml
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="${jdbc.driver}"></property>
+    <property name="jdbcUrl" value="${jdbc.url}"></property>
+    <property name="user" value="${jdbc.username}"></property>
+    <property name="password" value="${jdbc.password}"></property>
+</bean>
+```
+
+## 六、Spring注解开发
+
+Spring是轻代码而重配置的开发框架，配置比较繁重，影响开发效率，所以注解开发是一种趋势。注解代替xml配置文件可以简化配置，提高开发效率。
+
+### Spring原始注解
+
+Spring原始注解主要是替代<Bean>标签的配置
+
+![image-20210330150504530](https://i.loli.net/2021/03/30/wOmEpTrvtSxZjQI.png)
+
+### 完善测试环境
+
+在注解之前，我们先惯例操作，搭建一个可以用来测试使用的Spring项目。
+
+![image-20210330153837849](https://i.loli.net/2021/03/30/pvnNIGow3zCF5gK.png)
+
+①首先创建接口和响应的实现
+
+dao层的接口以及实现：
+
+```java
+public interface UserDao {
+    public void save();
+}
+```
+
+```java
+public class UserDaoImpl implements UserDao {
+
+    @Override
+    public void save() {
+        System.out.println("save running...");
+    }
+}
+```
+
+service层的接口以及实现：
+
+```java
+public interface UserService {
+    public void save();
+}
+```
+
+```java
+public class UserServiceImpl implements UserService {
+
+    private UserDao userDao;
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public void save() {
+        userDao.save();
+    }
+}
+```
+
+因为我们在dao层已经创建了save方法，在service层要通过set方法直接调用save方法，实现用Spring生成Bean对象直接调用的目的。
+
+```xml
+<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl"></bean>
+
+<bean id="userService" class="com.itheima.service.impl.UserServiceImpl">
+    <property name="userDao" ref="userDao"></property>
+</bean>
+```
+
+之后，我们建立一个测试用的web层，我们使用C/S方法，直接在web层中启动整个程序。创建一个`web.UserController`。
+
+```java
+public class UserController {
+
+    public static void main(String[] args) {
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserService userService = app.getBean(UserService.class);
+        userService.save();
+    }
+
+}
+```
+
+运行结果测试正常，能够通过Service层调用到dao层的save方法。
+
+> 3月 30, 2021 3:37:22 下午 com.mchange.v2.c3p0.C3P0Registry banner
+> 信息: Initializing c3p0-0.9.1.2 [built 21-May-2007 15:04:56; debug? true; trace: 10]
+> save running...
+
+### 原始注解入门操作
+
+使用注解开发，需要在applicationContext.xml配置文件中配置组件扫描，作用是指定哪一个包及其子包下的Bean需要进行扫描以便识别使用注解配置的类、字段和方法。
+
+注解开发步骤：①需要在创建Bean的类上加上注解Component
+
+```java
+//<bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl"></bean>
+@Component("userDao")
+public class UserDaoImpl implements UserDao {
+    @Override
+    public void save() {
+        System.out.println("save running...");
+    }
+}
+```
+
+```java
+//<bean id="userService" class="com.itheima.service.impl.UserServiceImpl">
+//<property name="userDao" ref="userDao"></property>
+//</bean>
+@Component("userService")
+public class UserServiceImpl implements UserService {
+    //<property name="userDao" ref="userDao"></property>
+    @Autowired
+    @Qualifier("userDao")
+    private UserDao userDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    @Override
+    public void save() {
+        userDao.save();
+    }
+}
+```
+
+以上这两个代码的注解相当于在Spring配置文件中的部分——对应的是注释部分的内容。Component注解都是添加在接口对应的实现类前面，至于要在userService中获取到userDao的引用对象值，则需要在类的内部所需要获取到的属性上方使用@Autowired以及@Qualifier("id")获取。
+
+值得注意的是：**当使用的是xml配置的方式获取到Bean对象时，需要使用到实现类中的set方法；如果用到的时注解的方式，则可以不适用set方法**。
+
+②配置组件扫描
+
+```xml
+<!--使用注解需要配置组件扫描-->
+<context:component-scan base-package="com.itheima"/>
+```
+
+配置组件扫描，让Spring寻找对应的包及其子包下的注解部分。
+
+利用这种注解，就能完成Spring的注解开发。如果没有加上组件扫描部分，会出现*NoSuchBeanDefinitionException*的异常。
+
+### 原始注解详解
+
+针对上述的案例，如果注解中只写了Autowired，不写Qualifier，也能实现注入。
+
+```java
+@Repository("userDao")
+public class UserDaoImpl implements UserDao {
+    @Override
+    public void save() {
+        System.out.println("save running...");
+    }
+}
+```
+
+```java
+	@Autowired  // 按照数据类型从Spring容器中进行匹配
+//  @Qualifier("userDao") // 按照id的值从Spring容器中进行匹配的，但是要结合@Autowired一起使用
+    private UserDao userDao;
+```
+
+上述这样的情况下也能实现注入。或者直接Autowired与Qualifier均不使用，我们使用@Resource(name="userDao")的方式也能成功进行注入并使用。
+
+```java
+//    <property name="userDao" ref="userDao"></property>
+//    @Autowired  // 按照数据类型从Spring容器中进行匹配
+//    @Qualifier("userDao") // 按照id的值从Spring容器中进行匹配的，但是要结合@Autowired一起使用
+    @Resource(name="userDao")  // @Resource相当于@Autowired+@Qualifier
+    private UserDao userDao;
+```
+
+此外，还可以通过注解的方式对普通的变量进行赋值
+
+```java
+@Value("itcast")
+private String driver;
+System.out.println(driver);
+```
+
+这样的情况是可以正常打印输出itcast的。但是这样的单纯赋值意义不大，搭配properties配置文件来使用的时候用处更加广泛。
+
+```java
+@Value("${jdbc.driver}")
+private String driver;
+```
+
+此外，还能使用`@Scope("singleton")`注解来对Bean的单例或者多例进行规定。
+
+```
+@PostConstruct
+public void init() {
+    System.out.println("Service对象的初始化方法");
+}
+
+@PreDestroy
+public void destroy() {
+    System.out.println("Service对象的销毁方法");
+}
+```
+
+但是，单纯的使用这两种注解，只会打印init方法，并不会打印destroy方法。这时候我们将ApplicationContext变成子类，ClassPathXmlApplicationContext，并且之后手动关闭，则销毁方法也会打印。
+
+```java
+ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+app.close();
+```
+
+### Spring新注解
+
+在开发过程中，使用上述的注解不能替代全部的xml配置文件，还需要使用配置文件的有：
+
+> 非自定义的Bean的配置：`<Bean>`
+>
+> 加载properties配置文件：`<context:property-plceholder>`
+>
+> 组件扫描的配置文件：`<context:component-scan>`
+>
+> 引入其他文件：`<import>`
+
+所以这个时候，我们引入新注解：
+
+![image-20210330203421187](https://i.loli.net/2021/03/30/WzHkyOM6UdY7apX.png)
+
+为了达到不使用ApplicationContext配置文件的目的，我们将使用新注解的方式达到。
+
+①对于非自定义的`<Bean>`对象的配置
+
+原配置文件需要在applicationContext.xml中进行以下的配置
+
+```xml
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="${jdbc.driver}"></property>
+    <property name="jdbcUrl" value="${jdbc.url}"></property>
+    <property name="user" value="${jdbc.username}"></property>
+    <property name="password" value="${jdbc.password}"></property>
+</bean>
+```
+
+运用新注解，我们在需要创建Bean实例的方法上面添加@Bean的配置。
+
+```java
+@Bean("dataSource")     // Spring会将当前方法的返回值以指定名称存储到Spring容器中
+public DataSource getDataSource () throws PropertyVetoException { }
+```
+
+②对于加载properties配置文件：`<context:property-plceholder>`的配置
+
+之前由于使用了properties配置文件的方式配置了jdbc的相关参数，现在我们使用注解来代替其中的参数获取。
+
+获取properties文件中的响应key-value的时候，我们使用@Value注解的方式向private变量赋值，成功解耦。
+
+没有使用新注解的方式之前，我们使用的是xml配置的方式，现在替换成下面的形式，注解添加在自定义的类前面。
+
+```java
+//<context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+@PropertySource("classpath:jdbc.properties")
+```
+
+③对于组件扫描的配置文件：`<context:component-scan>`的配置
+
+```java
+//<context:component-scan base-package="com.itheima"/>
+@ComponentScan("com.itheima")
+```
+
+④对于引入其他文件：`<import>`的配置
+
+```java
+//<import resource=""/>
+@Import({DataSourceConfiguration.class})
+```
+
+使用上述这四种注解之前，我们需要添加注解说明，标志成核心配置类
+
+```java
+// 标志该类是Spring的一个核心配置类
+@Configuration
+```
+
+了解完注解的相关使用后，我们进入到正常的使用。创建config包，新建SpringConfiguration类和DataSourceConfiguration类。
+
+代码分别如下：
+
+```java
+// 标志该类是Spring的一个核心配置类
+@Configuration
+//<context:component-scan base-package="com.itheima"/>
+@ComponentScan("com.itheima")
+//<import resource=""/>
+@Import({DataSourceConfiguration.class})
+public class SpringConfiguration {
+
+}
+```
+
+```java
+//<context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+@PropertySource("classpath:jdbc.properties")
+public class DataSourceConfiguration {
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String username;
+    @Value("${jdbc.password}")
+    private String password;
+    @Bean("dataSource")     // Spring会将当前方法的返回值以指定名称存储到Spring容器中
+    public DataSource getDataSource () throws PropertyVetoException {
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass(driver);
+        dataSource.setJdbcUrl(url);
+        dataSource.setUser(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+}
+```
+
+这个时候，将web层的启动代码，修改成如下：
+
+```java
+ApplicationContext app = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+UserService userService = app.getBean(UserService.class);
+userService.save();
+```
+
+最终成功运行，运行结果：
+
+> 3月 30, 2021 9:59:42 下午 com.mchange.v2.c3p0.C3P0Registry banner
+> 信息: Initializing c3p0-0.9.1.2 [built 21-May-2007 15:04:56; debug? true; trace: 10]
+> com.mysql.jdbc.Driver
+> save running...
+
+这个时候的运行，applicationContext.xml文件已经可以完全删除。至此，我们已经成功摆脱配置文件的限制。
+
+结合之前的注解，我们已经能够实现在Spring开发中，不需要任何的配置文件了，实现真正的全注解开发。
+
+### Spring整合Junit
+
+#### 原始Junit测试Spring的问题
+
+原始测试中，每个测试中都有下面两行代码：
+
+```java
+ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+IAccountService as = ac.getBean("accountService", IAccountService.class);
+```
+
+这两行代码的作用是获取容器，如果不写的话，会提示空指针异常，不能轻易删掉。
+
+解决思路：
+
+> 使用SpringJunit创建Spring容器，但是需要将配置文件的名称告诉它
+>
+> 将需要进行测试的Bean直接在测试类中进行注入
+
+#### Spring集成Junit的步骤
+
+![image-20210330230811784](https://i.loli.net/2021/03/30/poenrfCZ5yzAhav.png)
+
+①添加集成Junit的依赖
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.0.5.RELEASE</version>
+</dependency>
+```
+
+②添加测试类，使用@Runwith注解和@ContextConfiguration注解
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration(classes = {SpringConfiguration.class})
+public class SpringJunitTest {
+
+    // 使用注解注入容器中的对象
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Test
+    public void test1() throws SQLException {
+        userService.save();
+        System.out.println(dataSource.getConnection());
+    }
+
+}
+```
+
+## 七、AOP
+
+### Spring的AOP简介
+
+AOP为**Aspect Oriented Programming**的缩写，意为：面向切面编程，通过预编译方 式和运行期动态代理实现程序功能的统一维护的一种技术。
+
+AOP是OOP的延续，是软件开发中的一个热点,也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。
+
+> 作用：在程序运行期间，不修改源码的情况对目标方法进行功能的增强
+>
+> 优势：减少重复代码，提高开发的效率，并且便于维护
+
+### AOP的底层实现
+
+实际上，AOP的底层是通过Spring提供的动态代理技术实现的。在运行期间，Spring通过动态代理技术动态地生成代理对象，代理对象方法执行时进行增强功能的介入，在调用目标对象的方法，从而完成功能的增强。
+
+常用的动态代理技术
+
+> JDK代理：基于接口的动态代理技术
+>
+> cglib代理：基于父类的动态代理技术
+
+![image-20210331182633165](https://i.loli.net/2021/03/31/AlDjWpedkzQn8Cf.png)
+
+### JDK动态代理
+
+①创建代理目标对象接口`TargetInterface()`
+
+```java
+public interface TargetInterface {
+    public void save();
+}
+```
+
+②创建目标方法类`Target()`
+
+```java
+public class Target implements TargetInterface{
+    public void save() {
+        System.out.println("save running...");
+    }
+}
+```
+
+③创建增强方法类`Advice()`
+
+```java
+public class Advice {
+    public void before() {
+        System.out.println("前置增强...");
+    }
+    public void afterReturning() {
+        System.out.println("后置增强...");
+    }
+}
+```
+
+④创建主方法测试类`ProxyTest()`
+
+```java
+public class ProxyTest {
+
+    public static void main(String[] args) {
+
+        // 获得目标对象
+        final Target target = new Target();
+
+        // 获得目标增强对象
+        final Advice advice = new Advice();
+
+        // 返回值 就是动态生成的代理对象
+        TargetInterface proxy = (TargetInterface) Proxy.newProxyInstance(
+                // 获取目标对象的类加载器
+                target.getClass().getClassLoader(),
+                // 目标对象相同的接口字节码对象数组
+                target.getClass().getInterfaces(),
+                new InvocationHandler() {
+                    // 调用代理对象的任何方法，实质执行的都是invoke方法
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        // 前置增强
+                        advice.before();
+                        // 执行目标方法
+                        Object invoke = method.invoke((target));
+                        // 后置增强
+                        advice.afterReturning();
+                        return invoke;
+                    }
+                }
+        );
+        // 调用代理对象的方法
+        proxy.save();
+    }
+
+}
+```
+
+出现错误过程以及调试：
+
+按照教程中打的是`method.invoke(target.args);`但是在运行的时候出现*不支持发行版本5*的错误提示信息。最后根据提示更改IDEA的JDK选择版本号——默认在setting中的Build->Compiler->Java Compiler中修改相关的Module的版本号——得以解决；再根据IDEA的提示信息修改教程代码为`method.invoke(target.arg)`；最后IDEA自动修改成`method.invoke((target));`运行成功。
+
+这些步骤就是使用JDK动态代理的整个过程。所有的类都放在同一个Module下面，测试使用正常。
+
+![image-20210401174025367](https://i.loli.net/2021/04/01/rdXE3bNQpMOSjwB.png)
+
+### cglib动态代理
+
+cglib处于spring框架中的core部分，其中有对应的package存在，所以在使用的时候将spring依赖导入即可。整个package的创建不需要使用接口，直接复制之前的jdk动态代理部分。
+
+①创建目标方法
+
+```java
+public class Target {
+    public void save() {
+        System.out.println("save running...");
+    }
+}
+```
+
+②创建增强方法
+
+```java
+public class Advice {
+
+    public void before() {
+        System.out.println("前置增强...");
+    }
+
+    public void afterReturning() {
+        System.out.println("后置增强...");
+    }
+
+}
+```
+
+③创建代理方法
+
+```java
+public class ProxyTest {
+
+    public static void main(String[] args) {
+
+        // 获得目标对象
+        final Target target = new Target();
+
+        // 获得目标增强对象
+        final Advice advice = new Advice();
+
+        // 返回值 就是动态生成的代理对象 基于cglib
+        // 1、创建增强器
+        Enhancer enhancer = new Enhancer();
+        // 2、设置父类（目标）
+        enhancer.setSuperclass(Target.class);
+        // 3、设置回调
+        enhancer.setCallback(new MethodInterceptor() {
+            @Override
+            public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+                // 执行前置
+                advice.before();
+                // 执行目标方法
+                Object invoke = method.invoke((target));
+                // 执行后置
+                advice.afterReturning();
+                return invoke;
+            }
+        });
+        // 4、创建代理对象
+        Target proxy = (Target) enhancer.create();
+
+        // 5、调用目标方法
+        proxy.save();
+    }
+
+}
+```
+
+其中，使用cglib动态代理方式不需要创建接口，步骤如注释中一样。
+
+![image-20210401180705656](https://i.loli.net/2021/04/01/Fuwz8bJIeiMHqks.png)
+
+在进行动态代理真正的使用中，不需要和上面一样使用繁琐的步骤，只需要进行简单的配置即可，spring会对动态代理进行简单的封装。
+
+### AOP相关概念
+
+连接点：JoinPoint，指可以被增强的方法
+
+切入点：PointCut，指真正被增强的方法
+
+连接点范围更大，切入点是连接点的子集
+
+![image-20210401205949450](https://i.loli.net/2021/04/01/ocZ9QEU6KOWRm12.png)
+
+### AOP开发明确的事项
+
+#### 需要编写的内容
+
+> 1、编写核心业务代码（目标类的目标方法）
+>
+> 2、编写切面类，切面类中有通知（增强功能方法）
+>
+> 3、在配置文件中，配置织入关系，即将哪些通知和哪些连接点进行结合
+
+#### AOP技术实现的内容
+
+Spring框架监控切入点方法的执行。一旦监控到切入点方法被运行，使用代理机制，动态创建目标对象的代理对象，根据通知类别，在代理对象的对应位置,将通知对应的功能织入，完成完整的代码逻辑运行。
+
+#### AOP底层使用哪种代理方法
+
+在Spring中，框架会根据目标类是否实现了接口来决定采用哪种动态代理的方式。
+
+> 有接口，则采用JDK动态代理方式
+>
+> 无接口，则采用cglib动态代理方式
+
+#### 知识要点
+
+AOP：面向切面编程
+
+AOP的底层实现：基于JDK的动态代理 和 基于cglib的动态代理
+
+- Pointcut（切入点）：被增强的方法
+- Advice（通知/增强）：封装业务增强逻辑的方法
+- Aspect（切面）：切点+通知
+- Weaving（织入）：将切点与通知结合的过程
+
+### 基于XML的AOP开发
+
+①导入AOP相关坐标
+
+在spring-context中已经存在springAOP，但是还需要用到切面编程的一些内容，所以我们需要还导入aspectjweaver。
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.0.5.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.8.4</version>
+</dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+```
+
+②创建目标接口和目标类（内部有切点）
+
+我们直接将之前写的Target以及TargetInterface两个类复制使用。
+
+![image-20210401213729896](https://i.loli.net/2021/04/01/dFInf6agbA9Gc72.png)
+
+③创建切面类（内部有增强方法）
+
+创建MyAspect类，代码编写如下所示：
+
+```java
+public class MyAspect {
+    public void before() {
+        System.out.println("前置增强...");
+    }
+}
+```
+
+④将目标类和切面类的对象创建权交给Spring
+
+在Resources文件夹中创建applicationContext.xml配置文件，创建目标类和切面类的Bean对象。
+
+```xml
+<!--目标对象-->
+<bean id="target" class="com.itheima.aop.Target"/>
+
+<!--切面对象-->
+<bean id="myAspect" class="com.itheima.aop.MyAspect"/>
+```
+
+其中，整体结构如上图所示。
+
+⑤在applicationContext.xml中配置织入关系
+
+```xml
+<!--配置织入:告诉Spring框架哪些方法（切点）需要进行哪些增强（前置、后置...）-->
+<aop:config>
+    <!--声明切面-->
+    <aop:aspect ref="myAspect">
+        <!--切面：切点+通知-->
+        <aop:before method="before" pointcut="execution(public void com.itheima.aop.Target.save())"/>
+    </aop:aspect>
+</aop:config>
+```
+
+这一步需要首先使用aop的命名空间，添加aop的命名空间，之后使用aop的配置。
+
+配置命名空间之后的代码如下所示：
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+</beans>
+```
+
+⑥测试代码
+
+在测试之前，首先需要导入spring-test依赖（前面已经实现导入依赖）。
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.0.5.RELEASE</version>
+</dependency>
+```
+
+创建test.java.com.itheima.test.AopTest类，代码如下：
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:applicationContext.xml")
+public class AopTest {
+
+    @Autowired
+    private TargetInterface target;
+
+    @Test
+    public void test1() {
+        target.save();
+    }
+
+}
+```
+
+在这里使用注解的方式注入applicationContext.xml配置文件。在使用测试类的时候，前前后后遇见了不少的问题。
+
+1.test1()方法没有相关的运行按钮：
+
+在pom.xml中选配更高版本的junit（最好4.12或更高，后面项目运行时候提示错误需要更高版本的junit）并且删除其中~~<scope>~~标签。
+
+```xml
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <!--<scope>test</scope>-->
+</dependency>
+```
+
+2.IDEA的jdk版本号自动切换成1.5导致运行失败：
+
+原因是因为pom.xml文件在配置的时候会默认切换版本成1.5，所以需要在pom.xml中指定JDK的版本号。
+
+```xml
+<properties>
+    <java.version>14</java.version>
+    <maven.compiler.source>14</maven.compiler.source>
+    <maven.compiler.target>14</maven.compiler.target>
+</properties>
+```
+
+最终，运行结果如下。
+
+> 4月 01, 2021 10:13:11 下午 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+> 信息: Refreshing org.springframework.context.support.GenericApplicationContext@69b0fd6f: startup date [Thu Apr 01 22:13:11 CST 2021]; root of context hierarchy
+> 前置增强...
+> save running...
+
+### 切点表达式的写法
+
+之前在applicationContext.xml文件中配置织入方法过程的时候，需要编写切点表达式，格式如下
+
+```xml
+<aop:before method="before" pointcut="execution(public void com.itheima.aop.Target.save())"/>
+```
+
+后面的pointcut的配置 `execution(public void com.itheima.aop.Target.save())` 意思就是执行Target目标类中的sav方法。
+
+表达式通用语法
+
+```xml
+execution([修饰符] 返回值类型 包名.类名.方法名(参数))
+```
+
+execution	n.处决;实行;执行;实施;
+
+细节问题：①访问修饰符可以省略不写；②返回值类型、包名、类名、方法名可以用*代替任意；③包名类名之间一个点.代表当前包下的类，两个点..代表当前包及其子包下的类；④参数列表两个点..可以代表任意个数、任意类型的参数
+
+![image-20210401222929774](https://i.loli.net/2021/04/01/9NiUGErdo42DmA6.png)
+
+上述的写法都是合法可用的。第三个是最常用的。
+
+```xml
+<aop:before method="before" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+```
+
+### 通知的类型
+
+通知的配置语法
+
+```xml
+<aop:通知类型 method="切面中类方法名" pointcut="切点表达式"/>
+```
+
+![image-20210401223526764](https://i.loli.net/2021/04/01/cqRxGYfwHgENFrb.png)
+
+```xml
+<aop:before method="before" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+<aop:after-returning method="afterReturning" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+```
+
+配置好后置方法并且编写了后置方法，运行的时候就会有后置方法了。
+
+> 4月 01, 2021 10:37:58 下午 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+> 信息: Refreshing org.springframework.context.support.GenericApplicationContext@69b0fd6f: startup date [Thu Apr 01 22:37:58 CST 2021]; root of context hierarchy
+> 前置增强...
+> save running...
+> 后置增强...
+
+但是在环绕增强的时候，如果没有在环绕增强方法中配置参数的话，运行结果将不会出现目标方法。
+
+```java
+public void around() {
+    System.out.println("环绕前增强...");
+    System.out.println("环绕后增强...");
+}
+```
+
+> 4月 01, 2021 10:41:00 下午 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+> 信息: Refreshing org.springframework.context.support.GenericApplicationContext@69b0fd6f: startup date [Thu Apr 01 22:41:00 CST 2021]; root of context hierarchy
+> 前置增强...
+> 环绕前增强...
+> 环绕后增强...
+> 后置增强...
+
+正确的解决方法是，在around方法中增加参数ProceedingJoinPoint
+
+Proceeding	v-ing.进行中的，继续，接着做；proceed的现在分词	JoinPoint	n.连接点;注入点
+
+```java
+// Proceeding JoinPoint：正在执行的连接点==切点
+public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    System.out.println("环绕前增强...");
+    // 切点方法
+    Object proceed = proceedingJoinPoint.proceed();
+    System.out.println("环绕后增强...");
+    return proceed;
+}
+```
+
+```xml
+<aop:around method="around" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+```
+
+> 环绕前增强...
+> save running...
+> 环绕后增强...
+> 4月 01, 2021 10:50:17 下午 org.springframework.context.support.AbstractApplicationContext doClose
+> 信息: Closing org.springframework.context.support.GenericApplicationContext@4a87761d: startup date [Thu Apr 01 22:50:16 CST 2021]; root of context hierarchy
+>
+> Process finished with exit code 0
+
+对于异常抛出增强，在原方法中需要出现异常抛出才会执行。
+
+①在切点中添加异常情况；
+
+②添加异常抛出增强配置；
+
+```xml
+<aop:after-throwing method="afterThrowing" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+```
+
+③执行结果如下
+
+> 环绕前增强...
+> 异常抛出增强...
+>
+> java.lang.ArithmeticException: / by zero
+
+这个执行结果中：目标方法没有被执行、环绕后方法也没有被执行。
+
+最终增强：无论出不出现异常，最终都会出现增强。
+
+编写最终增强方法：
+
+```java
+// 最终增强
+public void after() {
+    System.out.println("最终增强...");
+}
+```
+
+编写最终增强配置：
+
+```xml
+<aop:after method="after" pointcut="execution(* com.itheima.aop.*.*(..))"/>
+```
+
+运行结果：
+
+> 4月 01, 2021 11:00:20 下午 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+> 信息: Refreshing org.springframework.context.support.GenericApplicationContext@69b0fd6f: startup date [Thu Apr 01 23:00:20 CST 2021]; root of context hierarchy
+> 环绕前增强...
+> save running...
+> 异常抛出增强...
+> 最终增强...
+>
+> java.lang.ArithmeticException: / by zero
+
+可以看到，尽管异常仍然存在，环绕后增强没有执行，但是最终增强还是执行了（此处异常被放在了sout语句的后面，故出现了打印的内容）。
+
+### 切点表达式的抽取
+
+当多个切点表达式相同时，可以将切点表达式进行抽取，在增强中使用pointcut-ref属性代替pointcut属性来引用抽取后的切点表达式。
+
+![image-20210401233117583](https://i.loli.net/2021/04/01/naLVt3HgE47zlCA.png)
+
+切点表达式的抽取就是添加一个aop:pointcut的标签，定义好表达式，之后在使用通知的时候，表达式直接通过引用的方式调用即可。
+
+```xml
+<aop:pointcut id="myPointcut" expression="execution(* com.itheima.aop.*.*(..))"/>
+<aop:around method="around" pointcut-ref="myPointcut"/>
+<aop:after method="after" pointcut-ref="myPointcut"/>
+```
+
+**知识要点总结**
+
+![image-20210401233945752](https://i.loli.net/2021/04/01/VgOIxAjURMTqkiY.png)
+
+### 基于注解的AOP开发
+
+#### 注解AOP入门
+
+准备阶段：新建一个anno的package，将之前使用的Target以及MyAspect、TargetInterface复制到anno包中。
+
+①创建目标接口和目标类（内部有切点）
+
+myAspect类以及Target类、TargetInterface类
+
+②创建切面类（内部有增强方法）
+
+![image-20210402001330594](https://i.loli.net/2021/04/02/OHzP5tWe3a9cmL6.png)
+
+③将目标类和切面类的对象创建权交给Spring
+
+在目标Target类前面和切面类MyAspect前面添加@Component注解
+
+```java
+@Component("myAspect")
+public class MyAspect { }
+@Component("target")
+public class Target implements TargetInterface { }
+```
+
+④在切面类中注解配置织入关系
+
+创建新的测试类AnnoTest，利用注解导入新的配置文件，同时开启组件扫描。
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:applicationContext-anno.xml")
+public class AnnoTest {
+
+    @Autowired
+    private TargetInterface target;
+
+    @Test
+    public void test1() {
+        target.save();
+    }
+
+}
+```
+
+```xml
+<!--组件扫描-->
+<context:component-scan base-package="com.itheima.anno"/>
+```
+
+在需要添加的增强方法前面注解相关参数，配置织入关系。
+
+```xml
+// 配置前置通知
+@Before("execution(* com.itheima.anno.*.*(..))")
+public void before() {
+    System.out.println("前置增强...");
+}
+```
+
+⑤在配置文件中开启组件扫描和AOP的自动代理
+
+新建context命名空间，打开AOP自动代理。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <!--组件扫描-->
+    <context:component-scan base-package="com.itheima.anno"/>
+
+    <!--aop自动代理-->
+    <aop:aspectj-autoproxy/>
+
+</beans>
+```
+
+在没有开启自动代理之前，程序虽然能正常运行，但是缺少本应有的前置增强。
+
+⑥测试
+
+运行AnnoTest测试类，结果如下：
+
+> 4月 02, 2021 12:37:31 上午 org.springframework.context.support.AbstractApplicationContext prepareRefresh
+> 信息: Refreshing org.springframework.context.support.GenericApplicationContext@69b0fd6f: startup date [Fri Apr 02 00:37:31 CST 2021]; root of context hierarchy
+> 前置增强...
+> save running...
+
+成功执行前置增强，运行成功。
+
+#### 注解通知种类和切点表达式抽取
+
+![image-20210402155307777](https://i.loli.net/2021/04/02/qaQfPvHCL8F93w7.png)
+
+配置的时候，在通知前面增加注解即可。
+
+```java
+@Around("execution(* com.itheima.anno.*.*(..))")
+@After("execution(* com.itheima.anno.*.*(..))")
+```
+
+**切点表达式的抽取**
+
+![image-20210402155900668](https://i.loli.net/2021/04/02/18veQFyEZUPn32i.png)
+
+切点表达式的抽取首先需要先定义表达式抽取方法，然后在方法上添加注解表达式。
+
+```java
+// 定义切点表达式
+@Pointcut("execution(* com.itheima.anno.*.*(..))")
+public void pointcut() {
+
+}
+```
+
+使用抽取表达式的时候，有两种方式：
+
+```java
+@After("MyAspect.pointcut()")
+@Around("pointcut()")
+```
+
+这样的注解方式都可以对抽取的表达式进行调用。
+
+#### 知识要点
+
+![image-20210402160535832](https://i.loli.net/2021/04/02/bgcBz6waVmlI8sN.png)
+
+## 八、Spring JdbcTemplate
+
+### Spring JdbcTemplate基本使用
+
+![image-20210402161251307](https://i.loli.net/2021/04/02/9dTvjzI4Nq36FGs.png)
+
+> Template		n.样板; 模板; 型板; 模框; 标准;
+
+使用步骤：
+
+①导入spring-jdbc和spring-tx坐标
+
+tx表示事务，Transaction
+
+ 在新建立的项目中的pom.xml文件中导入新的依赖包。
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.32</version>
+    </dependency>
+    <dependency>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.1.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.10</version>
     </dependency>
     <dependency>
         <groupId>junit</groupId>
@@ -100,2348 +1800,580 @@ conn.close();
         <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>javax.servlet.jsp-api</artifactId>
+        <version>2.2.1</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.12.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.12.2</version>
+    </dependency>
+    <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.4</version>
+    </dependency>
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.7</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>5.0.5.RELEASE</version>
     </dependency>
 </dependencies>
 ```
 
-②创建User数据表
+②创建数据库表和实体
 
-在MySQL中创建User数据表，主要属性有：id、username、password
-
-③创建User实体类
-
-在Java包下创建com.itheima.domain.User类
+创建数据库表格Account表，包含Name和Money两个属性。创建Account类，加入两个属性值并添加相关的Getter和Setter方法。
 
 ```java
-package com.itheima.domain;
+public class Account {
 
-public class User {
+    private String name;
+    private double money;
 
-    private int id;
-    private String username;
-    private String password;
-
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUsername() {
-        return username;
+    public double getMoney() {
+        return money;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMoney(double money) {
+        this.money = money;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+        return "Account{" +
+                "name='" + name + '\'' +
+                ", money=" + money +
                 '}';
     }
 }
 ```
 
-④编写映射文件UserMapper.xml
+③创建JdbcTemplate对象
 
-在文件路径src/main/resources/com.itheima.mapper/UserMapper.xml下，编写UserMapper.xml文件
+创建测试类：首先设置数据源对象，这里使用c3p0数据源对象，之后设置好相关的四个参数连接好数据库。
 
-这里需要用到Mybatis的映射文件头（最上面的两个标签内容）
+```java
+public class JdbcTemplateTest {
+
+    @Test
+    // 测试JdbcTemplate开发步骤
+    public void test1() throws PropertyVetoException {
+        // 设置数据源对象
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUser("root");
+        dataSource.setPassword("123456");
+
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        // 设置数据源对象
+        jdbcTemplate.setDataSource(dataSource);
+        // 执行操作
+        int row = jdbcTemplate.update("insert into account values(?, ?)", "Tom", 5000);
+        System.out.println(row);
+    }
+
+}
+```
+
+④执行数据库操作
+
+执行数据库的更新操作，首先之前要创建一个JdbcTemplate类，之后用实例设置好数据源对象，执行操作，打印结果。
+
+#### Spring产生JdbcTemplate对象
+
+我们可以将JdbcTemplate对象的创建权交给Spring，将数据源DataSource的创建权也交给Spring，在Spring容器中将DataSource注入到JdbaTemplate模板对象中，配置如下：
+
+①创建applicationContext.xml配置文件
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<mapper namespace="userMapper">
-    <select id="findAll" resultType="com.itheima.domain.User">
-        select * from user
-    </select>
-</mapper>
+    <!--配置数据源对象-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--配置Jdbc模板对象-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
 ```
 
-⑤编写核心文件SqlMapConfig.xml
+②测试类中编写新的方法，让Spring容器产生JdbcTemplate对象
 
-在src/main/resources/com.itheima.mapper/SqlMapConfig.xml下，编写SqlMapConfig.xml文件
+```java
+@Test
+// 测试Spring产生jdbc模板对象
+public void test2() {
+    ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+    JdbcTemplate jdbcTemplate = app.getBean(JdbcTemplate.class);
+    int row = jdbcTemplate.update("insert into account values(?, ?)", "Zhangsan", 5000);
+    System.out.println(row);
+}
+```
 
-在这里同样需要用到Mybatis的一个核心配置文件头（前两个标签），和前面的映射文件不一样
+#### 抽取properties配置文件
+
+首先创建一个properties类型的文件，`jdbc.properties`
+
+之后配置这个文件，在applicationContext.xml文件中添加context命名空间。
+
+```properties
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc.mysql://localhost:3306/test
+jdbc.username=root
+jdbc.password=123456
+```
+
+利用context命名空间导入properties配置文件。
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-config.dtd">
-
-<configuration>
-    <!--配置数据源环境-->
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/test"/>
-                <property name="user" value="root"/>
-                <property name="password" value="123456"/>
-            </dataSource>
-        </environment>
-    </environments>
-
-    <!--加载映射文件-->
-    <mappers>
-        <mapper resource="com.itheima.mapper/UserMapper.xml"/>
-    </mappers>
-
-</configuration>
+<!--引入properties配置文件-->
+<context:property-placeholder location="classpath:jdbc.properties"/>
 ```
 
-在这里配置的是数据源环境，里面包含数据源和事务管理器，设置好参数即可
+#### JdbcTemplate基本使用
 
-在这个核心配置文件中，我们还需要加载映射文件，根据核心配置文件找到映射文件
-
-⑥编写测试类并运行
-
-创建com.itheima.test.MybatisTest类
+CRUD操作，创建测试类JdbcTemplateCRUDTest.class
 
 ```java
 package com.itheima.test;
 
-import com.itheima.domain.User;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import com.itheima.domain.Account;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-
-public class MybatisTest {
-
-    @Test
-    public void test1 () throws IOException {
-        // 获得核心配置文件
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        // 获得Session工厂对象
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        // 获得Session会话对象
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        // 执行操作 参数：namespace.id
-        List<User> userList = sqlSession.selectList("userMapper.findAll");
-        // 打印数据
-        System.out.println(userList);
-        // 释放资源
-        sqlSession.close();
-    }
-
-}
-```
-
-到这一步，编写部分结束，就可以正式运行Mybatis了。
-
-### 遇到的问题
-
-①Could not find resource SqlMapConfig.xml
-
-这个问题是找不到SqlMapConfig.xml文件，这一步的原因是因为课程上设置在Resources文件夹内部再次建立了一个子文件夹src/main/resources/com.itheima.mapper，而导致resources文件夹下面没有相对应的配置文件，解决办法是将子文件夹修改成为resources类型的文件夹；或者将配置文件全部移出到resources的直接目录下。
-
-②Please initialize the log4j system properly.
-
-这个问题是请正确初始化log4j系统。发生原因是因为log4j没有被正确初始化，这一问题课程中没有提到。解决办法是在resources类型的文件夹下创建一个配置文件log4j.properties，文件内部的编写如下：
-
-```properties
-log4j.rootLogger=WARN, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=%d %p [%c] - %m%n
-```
-
-这样添加之后，错误警告就会消失了。
-
-### 知识总结
-
-①添加Mybatis的坐标：一定需要要导入的是mysql-connector-java坐标和Mybatis坐标
-
-②创建User数据表：在数据库中编写
-
-③创建User实体类：编写对应数据表中数据的实体
-
-④编写映射文件UserMapper.xml
-
-```xml
-<mapper namespace="userMapper">
-    <select id="findAll" resultType="com.itheima.domain.User">
-        select * from user
-    </select>
-</mapper>
-```
-
-映射文件中，mapper标签中出现了名字空间，添加名字空间是为了调用其中的findAll操作，形成调用关系，方便使用
-
-⑤编写核心文件SqlMapConfig.xml
-
-这一部配置数据源信息，加载映射配置文件。加载映射文件的时候需要使用的是路径名，而不是全限定名。
-
-⑥编写测试类并运行
-
-```java
-// 获得核心配置文件
-InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-// 获得Session工厂对象
-SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-// 获得Session会话对象
-SqlSession sqlSession = sqlSessionFactory.openSession();
-// 执行操作 参数：namespace.id
-List<User> userList = sqlSession.selectList("userMapper.findAll");
-// 打印数据
-System.out.println(userList);
-// 释放资源
-sqlSession.close();
-```
-
-核心文件的编写一样分为六个步骤，每一个步骤都需要调用相对应的方法，比较复杂。
-
-## 十九、Mybatis的映射文件概述
-
-整个映射文件的解释概述如下图所示：
-
-![image-20210406182939889](https://i.loli.net/2021/04/06/tahNcw2iSqQCEXr.png)
-
-## 二十、Mybatis的增删改查操作CRUD
-
-### 查询操作
-
-首先在UserMapper.xml文件中添加查询语句的标签，添加在mapper标签内部。
-
-```xml
-<!--查询操作-->
-<select id="findAll" resultType="com.itheima.domain.User">
-    select * from user
-</select>
-```
-
-然后在com.itheima.test.MybatisTest类中执行测试代码
-
-```java
-@Test
-public void test1 () throws IOException {
-    // 获得核心配置文件
-    InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-    // 获得Session工厂对象
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    // 获得Session会话对象
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    // 执行操作 参数：namespace.id
-    List<User> userList = sqlSession.selectList("userMapper.findAll");
-    // 打印数据
-    System.out.println(userList);
-    // 释放资源
-    sqlSession.close();
-}
-```
-
-这个时候就会返回一个已经被封装好的结果集List
-
-### 插入操作
-
-和之前的查询操作一样，将下面的标签添加到`<mapper namespace="userMapper"></mapper>`标签组内部。插入数据的占位符使用`#{Entity properties name}`（实体属性名）格式。
-
-```xml
-<!--插入操作-->
-<insert id="save" parameterType="com.itheima.domain.User">
-    insert into user values(#{id}, #{username}, #{password})
-</insert>
-```
-
-但是因为插入操作需要创建一个插入的对象集合，这个时候我们创建一个需要被插入的对象实例，然后将这个实例的数据设置好，之后执行插入操作。
-
-```java
-@Test
-public void test2 () throws IOException {
-    // 模拟一个对象
-    User user = new User();
-    user.setUsername("Tom");
-    user.setPassword("123456");
-    // 获得核心配置文件
-    InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-    // 获得Session工厂对象
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    // 获得Session会话对象
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    // 执行操作 参数：namespace.id
-    sqlSession.insert("userMapper.save", user);
-    // 这个时候执行完毕如果直接进数据库视图查看，并没有成功插入数据
-    // 因为没有提交事务，解决如下：
-    // Mybatis需要执行更新操作，需要提交事务
-    sqlSession.commit();
-    // 释放资源
-    sqlSession.close();
-}
-```
-
-因为插入操作涉及到数据的更新，所以在执行之后数据库并没有立马更新，而是需要执行提交事务操作之后才会更新。
-
-**插入操作注意事项**
-
-![image-20210407190019287](https://i.loli.net/2021/04/07/gnfPmp5NO48eutc.png)
-
-### 修改操作
-
-修改操作使用update标签，使用的是`sqlSession.update("命名空间.id",实体对象);`
-
-UserMapper.xml文件和测试代码如下所示
-
-```xml
-<!--修改操作-->
-<update id="update" parameterType="com.itheima.domain.User">
-    update user set username = #{username}, password = #{password} where id = #{id}
-</update>
-```
-
-```java
-@Test
-// 修改操作
-public void test3 () throws IOException {
-    // 模拟一个对象
-    User user = new User();
-    user.setId(7);
-    user.setUsername("Lucy");
-    user.setPassword("123");
-    // 获得核心配置文件
-    InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-    // 获得Session工厂对象
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    // 获得Session会话对象
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    // 执行操作 参数：namespace.id
-    sqlSession.insert("userMapper.update", user);
-    // Mybatis需要执行更新操作，需要提交事务
-    sqlSession.commit();
-    // 释放资源
-    sqlSession.close();
-}
-```
-
-由于涉及数据的改动，同样需要提交事务才能真正修改。
-
-### 删除操作
-
-①删除操作使用delete标签；②删除操作sql语句使用`#{任意字符串}`方式引用传递的单个参数；③使用的API是`sqlSession.delete("命名空间.id", Object);`
-
-```xml
-<!--删除操作-->
-<delete id="delete" parameterType="java.lang.Integer">
-    delete from user where id=#{id}
-</delete>
-```
-
-```java
-@Test
-// 删除操作
-public void test4 () throws IOException {
-    // 获得核心配置文件
-    InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-    // 获得Session工厂对象
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    // 获得Session会话对象
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    // 执行操作 参数：namespace.id
-    sqlSession.insert("userMapper.delete", 7);
-    // Mybatis需要执行更新操作，需要提交事务
-    sqlSession.commit();
-    // 释放资源
-    sqlSession.close();
-}
-```
-
-## 二十一、Mybatis核心配置文件
-
-### 常用配置解析
-
-![image-20210409170512598](https://i.loli.net/2021/04/09/73xv8uKXikhO1e4.png)
-
-![image-20210409170530005](https://i.loli.net/2021/04/09/cdNszwomxOLM7DP.png)
-
-![image-20210409172308322](https://i.loli.net/2021/04/09/H8MZOqtopvG9h6A.png)
-
-![image-20210409172512847](https://i.loli.net/2021/04/09/m9PXoMagOxYuIp4.png)
-
-![image-20210409173050962](https://i.loli.net/2021/04/09/1nCqKTW4vmVE2gx.png)
-
-![image-20210409173326684](https://i.loli.net/2021/04/09/DEugPQpNZAWajHK.png)
-
-![image-20210409173434652](https://i.loli.net/2021/04/09/LmEGKuAIORihZF6.png)
-
-所以在使用的时候，之前删除操作中的java.lang.Integer也可以改成int
-
-在使用的时候，通常使用在核心配置文件中。
-
-```xml
-<!--加载外部properties文件-->
-<properties resource="jdbc.properties"/>
-
-<!--定义别名，需要放到properties后面，放到靠前的位置，否则报错不匹配-->
-<typeAliases>
-    <typeAlias type="com.itheima.domain.User" alias="user"/>
-</typeAliases>
-```
-
-一般要放在比较靠前的位置，放在后面可能会报错，提示**configuration标签内的子标签必须按照一定的顺序配置**。
-
-### 知识总结
-
-![image-20210409174043242](https://i.loli.net/2021/04/09/tL5JncWEYIgwyv4.png)
-
-![image-20210409174105971](https://i.loli.net/2021/04/09/GwQVF9vSTsKtUND.png)
-
-## 二十二、Mybatis相应API
-
-### SqlSession工厂构建器SqlSessionFactoryBuilder
-
-![image-20210409174500298](https://i.loli.net/2021/04/09/cuKZQPzMwxaDBot.png)
-
-### SqlSession工厂对象SqlSessionFactory
-
-SqlSessionFactory有多个方法创建SqlSession实例，常用 的方法有两个：
-
-![image-20210412143356511](https://i.loli.net/2021/04/12/PKyNsvt62Gijeco.png)
-
-选择了打开事务提交，就不需要后面手动地提交事务了。
-
-```java
-SqlSession sqlSession = sqlSessionFactory.openSession(true);
-// sqlSession.commit();
-```
-
-**根据id等进行查询操作**
-
-首先在UserMapper.xml文件中添加根据id查询的配置文件块。
-
-```xml
-<!--根据ID进行查询-->
-<select id="findById" resultType="com.itheima.domain.User" parameterType="int">
-    select * from user where id = #{id}
-</select>
-```
-
-之后再在测试类中添加测试代码，具体如下
-
-```java
-@Test
-// 根据id进行查询操作
-public void test5 () throws IOException {
-    // 获得核心配置文件
-    InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-    // 获得Session工厂对象
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    // 获得Session会话对象
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    // 执行操作 参数：namespace.id
-    User user = sqlSession.selectOne("UserMapper.findById");
-    // 打印数据
-    System.out.println(user);
-    // 释放资源
-    sqlSession.close();
-}
-```
-
-### SqlSession会话对象
-
-![image-20210412160618617](https://i.loli.net/2021/04/12/MZqWnpcFGCoe81x.png)
-
-## 二十三、Mybatis的dao层实现
-
-### 传统实现方法
-
-①编写dao层实现接口
-
-![image-20210412163243950](https://i.loli.net/2021/04/12/yCbcKv92jhP4zSB.png)
-
-```java
-public interface UserMapper {
-
-    public List<User> findAll() throws IOException;
-}
-```
-
-```java
-public class UserMapperImpl implements UserMapper {
-    @Override
-    public List<User> findAll() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        List<User> userList = sqlSession.selectList("UserMapper.findAll");
-        return userList;
-    }
-}
-```
-
-②创建main方法运行
-
-```java
-public class ServiceDemo {
-
-    public static void main(String[] args) throws IOException {
-
-        // 创建dao层对象 当前dao层的创建是手动实现的
-        UserMapper userMapper = new UserMapperImpl();
-        List<User> all = userMapper.findAll();
-
-        System.out.println(all);
-
-    }
-
-}
-```
-
-之前的User以及UserMapper.xml等文件跟之前的项目保持一致。
-
-### 代理开发方式
-
-![image-20210412163730093](https://i.loli.net/2021/04/12/1hOe3Epf2lmGDJC.png)
-
-![image-20210412164255644](https://i.loli.net/2021/04/12/2pxGgaeSVOX6IrL.png)
-
-①UserMapper.xml文件中的namespace与mapper的接口全限定名相同
-
-即`namespace="com.itheima.dao.UserMapper"`命名空间的值和接口的全限定名是一样的。
-
-```xml
-<mapper namespace="com.itheima.dao.UserMapper">
-
-    <!--查询操作-->
-    <select id="findAll" resultType="user">
-        select * from user
-    </select>
-    
-</mapper>
-```
-
-```java
-public interface UserMapper {
-
-    public List<User> findAll() throws IOException;
-}
-```
-
-②Mapper接口方法名和Mapper.xml中定义的每个Statement的id相同
-
-```xml
-<!--查询操作-->
-<select id="findAll" resultType="user">
-    select * from user
-</select>
-```
-
-查询操作的statement的id为findAll，在Mapper接口方法中，方法名一样也是findAll
-
-```java
-public List<User> findAll() throws IOException;
-```
-
-③Mapper接口方法的输入参数要和Mapper.xml中定义的每个sql的parameterType相同
-
-因为上述的接口方法中无参数，所以在UserMapper.xml文件中同样无参数。
-
-④Mapper接口方法的输出参数要和Mapper.xml中定义的每个sql的resultType相同
-
-接口方法的输出参数是User类型的集合
-
-```
-public List<User> findAll() throws IOException;
-```
-
-UserMapper.xml文件中定义的sql语句的返回类型也是User类，所以二者是一样的。
-
-**实际操作**
-
-①在UserMapper.xml文件中添加相应的sql语句的statement
-
-```xml
-<!--根据id查询-->
-<select id="findById" parameterType="int" resultType="user">
-    select * from user where id = #{id}
-</select>
-```
-
-②在UserMapper的接口文件中添加相关的接口方法
-
-```java
-public User findById(int id);
-```
-
-根据之前的四个原则，要符合相关的条件，函数名以及返回值、参数均不能随意更改
-
-③在ServiceDemo类中运行
-
-```java
-InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-SqlSession sqlSession = sqlSessionFactory.openSession();
-
-UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-User user = mapper.findById(1);
-System.out.println(user);
-```
-
-执行结果如下
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> User{id=1, username='zhangsan', password='123'}
-
-正常运行
-
-### 知识小结
-
-Mybatis的Dao层的两种实现方式
-
-①手动对Dao进行实现：传统实现方法
-
-②代理开发方式
-
-```java
-UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-```
-
-![image-20210412164255644](https://i.loli.net/2021/04/12/h3CZwBue8LznD16.png)
-
-在连接数据库的时候，出现了几个问题，在这里总结一下
-
-①No suitable driver found for jdbc:myql://localhost:3306/test
-
-仔细观察之后发现是因为自己mysql这几个字母打错了
-
-②Could not create connection to database server.
-
-连接不上数据库服务器，后来发现是因为版本号不匹配导致的。本地电脑中安装的MySQL的版本号是8.0.23，后来通过将pom.xml文件中的依赖版本修改成8.0.23之后，成功解决。
-
-```xml
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>8.0.23</version>
-</dependency>
-```
-
-## 二十四、Mybatis映射文件深入
-
-### 动态sql语句
-
-![image-20210412182802926](https://i.loli.net/2021/04/12/LnHXUu5aishrgMw.png)
-
-**实际操作**
-
-①创建一个新的项目itheima_mybatis_mapper
-
-创建一个domain包，下面是User类
-
-创建一个mapper包，下面是对应的UserMapper接口
-
-```java
-public interface UserMapper {
-
-    public List<User> findByCondition(User user);
-
-}
-```
-
-②在UserMapper.xml文件中，添加下面的代码
-
-```xml
-<mapper namespace="com.itheima.mapper.UserMapper">
-
-    <select id="findByCondition" resultType="user" parameterType="user">
-        select * from user where id=#{id} and username=#{username} and password=#{password}
-    </select>
-    
-</mapper>
-```
-
-③在test下面新建一个test类，全限定名为com.itheima.test.MapperTest
-
-```java
-public class MapperTest {
-
-    @Test
-    public void test1() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        // 模拟条件
-        User condition = new User();
-        condition.setId(1);
-        condition.setUsername("zhangsan");
-        condition.setPassword("123");
-        List<User> userList = mapper.findByCondition(condition);
-        System.out.println(userList);
-    }
-
-}
-```
-
-④在log4j.properties文件中将对应的参数修改成
-
-```properties
-log4j.rootLogger=debug, stdout
-```
-
-⑤运行test方法，可以输出结果以及相关的日志文件
-
-> 2021-04-12 18:56:43,764 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 1097619701.
-> 2021-04-12 18:56:43,765 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Setting autocommit to false on JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@416c58f5]
-> 2021-04-12 18:56:43,770 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==>  Preparing: select * from user where id=? and username=? and password=?
-> 2021-04-12 18:56:43,833 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==> Parameters: 1(Integer), zhangsan(String), 123(String)
-> 2021-04-12 18:56:43,911 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - <==      Total: 1
-> [User{id=1, username='zhangsan', password='123'}]
-
-其中有`select * from user where id=? and username=? and password=?`以及`1(Integer), zhangsan(String), 123(String)`两条语句，可以看出在实际执行过程中Mybatis的操作。
-
-### 动态Sql的`<if>`语句
-
-上面的项目是普通的查询方法，并没有用到动态的sql语句。
-
-```xml
-<select id="findByCondition" resultType="user" parameterType="user">
-    select * from user where id=#{id} and username=#{username} and password=#{password}
-</select>
-```
-
-在这个语句中，如果用户查询的条件中缺少必要的条件，那么最终会导致查询失败。这样的使用不符合实际的使用情况。
-
-这里我们引入`<if>`标签，引入动态sql语句的概念。
-
-我们根据实体类的不同取值，使用不同的Sql语句来进行查询。比如在id如果不为空时可以根据id查询，如果username不为空时还要加入用户名为条件。这种情况在我们的多条件组合查询中经常会碰到。
-
-![image-20210412200234445](https://i.loli.net/2021/04/12/kvfeaidhbJ5pKG3.png)
-
-实际使用中，使用if标签，可以实现多条件组合查询
-
-在test类中，如果注释掉password一行语句，不使用if将返回空值
-
-```java
-@Test
-public void test1() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-
-    UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-    // 模拟条件
-    User condition = new User();
-    condition.setId(1);
-    condition.setUsername("zhangsan");
-    // condition.setPassword("123");
-    List<User> userList = mapper.findByCondition(condition);
-    System.out.println(userList);
-}
-```
-
-在使用if标签，UserMapper.xml文件中，修改成下面的形式
-
-```xml
-<select id="findByCondition" resultType="user" parameterType="user">
-    select * from user where 1 = 1
-    <if test="id != 0">
-        and id = #{id}
-    </if>
-    <if test="username != null">
-        and username = #{username}
-    </if>
-    <if test="password != null">
-        and password = #{password}
-    </if>
-</select>
-```
-
-最终的运行结果如下所示：
-
-可以看到在log中没有出现password=?的匹配内容，实际使用中也就是说如果为空的时候，将不会运行if标签内的语句。
-
-> 2021-04-12 20:07:13,588 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==>  Preparing: select * from user where 1 = 1 and id = ? and username = ?
-> 2021-04-12 20:07:13,646 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==> Parameters: 1(Integer), zhangsan(String)
-> 2021-04-12 20:07:13,712 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - <==      Total: 1
-> [User{id=1, username='zhangsan', password='123'}]
-
-如果注释掉setname那一行语句，则最终运行结果将如下所示：
-
-> 2021-04-12 20:12:08,169 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==>  Preparing: select * from user where 1 = 1 and id = ?
-> 2021-04-12 20:12:08,240 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - ==> Parameters: 1(Integer)
-> 2021-04-12 20:12:08,308 DEBUG [com.itheima.mapper.UserMapper.findByCondition] - <==      Total: 1
-> [User{id=1, username='zhangsan', password='123'}]
-
-同样的，name一行的匹配不出现。
-
-在真正的实际开发中，我们不使用where 1=1的语句，这样可能在一些场合中造成sql语句注入的情况（虽然使用PreparedStatement语句可以避免）。在语句标签内部，提供了一个where标签，我们将where标签放在if条件标签整体的外部即可。
-
-```java
-<!--查询语句-->
-<select id="findByCondition" resultType="user" parameterType="user">
-    select * from user
-    <where>
-        <if test="id != 0">
-            and id = #{id}
-        </if>
-        <if test="username != null">
-            and username = #{username}
-        </if>
-        <if test="password != null">
-            and password = #{password}
-        </if>
-    </where>
-</select>
-```
-
-### 动态Sql的`<foreach>`语句
-
-`<foreach>`在这里是循环执行sql的拼接操作，适用于MySQL中的查询集合语句
-
-```mysql
-select * from user where id in (1,2,4);
-```
-
-这种情况下需要使用到这一标签。
-
-UserMapper.xml文件中的配置如下
-
-```xml
-<!--查询语句-->
-<select id="findByIds" parameterType="list" resultType="user">
-    select * from user
-    <where>
-        <foreach collection="list" open="id in(" close=")" item="id" separator=",">
-            #{id}
-        </foreach>
-    </where>
-</select>
-```
-
-一样遵照之前的四个规则：①名字空间和接口的全限定名一致；②sql语句块的id和方法名字一致；③参数类型和ParametreType一样；④返回值类型和ResultType一样
-
-测试类型编写如下：
-
-```java
-InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-SqlSession sqlSession = sqlSessionFactory.openSession();
-
-UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-// 模拟ids的数据
-List<Integer> ids = new ArrayList<Integer>();
-ids.add(1);
-ids.add(2);
-List<User> userList = mapper.findByIds(ids);
-System.out.println(userList);
-```
-
-运行结果如下：
-
-> 2021-04-13 23:20:54,854 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 1690713209.
-> 2021-04-13 23:20:54,854 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Setting autocommit to false on JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@64c63c79]
-> 2021-04-13 23:20:54,860 DEBUG [com.itheima.mapper.UserMapper.findByIds] - ==>  Preparing: select * from user WHERE id in( ? , ? )
-> 2021-04-13 23:20:54,936 DEBUG [com.itheima.mapper.UserMapper.findByIds] - ==> Parameters: 1(Integer), 2(Integer)
-> 2021-04-13 23:20:54,985 DEBUG [com.itheima.mapper.UserMapper.findByIds] - <==      Total: 2
-> [User{id=1, username='zhangsan', password='123'}, User{id=2, username='lisi', password='123'}]
-
-### sql片段的抽取
-
-sql语句在使用标签的时候经常会出现，为了解耦合的需求，我们可以进行sql语句片段的抽取
-
-在UserMapper.xml文件中的`<mapper>`标签添加标签`<sql>`然后添加标签的id，之后再在需要使用的地方添加include标签，引用的id就是之前设置的sql语句标签的id
-
-```xml
-<!--sql语句的抽取-->
-<sql id="selectUser">select * from user</sql>
-```
-
-```xml
-<!--查询语句-->
-<select id="findByIds" parameterType="list" resultType="user">
-    <include refid="selectUser"></include>
-    <where>
-        <foreach collection="list" open="id in(" close=")" item="id" separator=",">
-            #{id}
-        </foreach>
-    </where>
-</select>
-```
-
-### 知识小结
-
-常用的标签包含下面这些：sql——sql语句片段的抽取
-
-| select | insert | update | delete | where     | if     | foreach |
-| ------ | ------ | ------ | ------ | --------- | ------ | ------- |
-| 查询   | 插入   | 更新   | 删除   | where标签 | if判断 | 循环    |
-
-## 二十五、Mybatis核心配置文件深入
-
-### typeHandles标签
-
-![image-20210413234132318](https://i.loli.net/2021/04/13/XCugf2DmKwTHBxv.png)
-
-![image-20210413234453812](https://i.loli.net/2021/04/13/cYqr62VB9shPzNR.png)
-
-**实际使用过程**
-
-①在User类中添加新的birthday类型值，并添加对应的get和set方法
-
-```java
-private Date birthday;
-```
-
-②在mapper映射文件中添加相应的sql操作标签语句
-
-```xml
-<!--插入操作-->
-<insert id="save" parameterType="user">
-    insert into user values (#{id}, #{username}, #{password}, #{birthday})
-</insert>
-```
-
-③在测试类中编写如下
-
-```java
-@Test
-public void test1() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-    // 创造User对象，此处数据库设置主键id自增长
-    User user = new User();
-    user.setUsername("test");
-    user.setPassword("123");
-    user.setBirthday(new Date());
-    // 执行保存操作
-    userMapper.save(user);
-
-    sqlSession.close();
-}
-```
-
-这个时候会触发Error，因为实际的情况中因为类型的问题，不能直接将bigint的类型数据值（Mysql中的birthday属性值是一个bigint类型）转换为一个date类型，会提示SqlException。此时需要运行我们的自定义类型处理器。
-
-具体步骤：
-
-①创建一个新的类，全限定名为com.itheima.handler.DateTypeHandler
-
-```java
-public class DateTypeHandler extends BaseTypeHandler<Date> {
-    // 将java类型转换为数据库需要的类型
-    @Override
-    public void setNonNullParameter(PreparedStatement preparedStatement, int i, Date date, JdbcType jdbcType) throws SQLException {
-        long time = date.getTime();
-        preparedStatement.setLong(i, time);
-    }
-
-    // 将数据库中的类型转换成java的类型
-    @Override
-    // String 是数据库中要转换的字段的名称
-    // ResultSet 是查询出的结果集
-    public Date getNullableResult(ResultSet resultSet, String s) throws SQLException {
-        // 获取结果集中需要的数据 Long 转换成 date 类型并返回
-        long aLong = resultSet.getLong(s);
-        Date date = new Date(aLong);
-        return date;
-    }
-
-    // 将数据库中的类型转换成java的类型
-    @Override
-    public Date getNullableResult(ResultSet resultSet, int i) throws SQLException {
-        long aLong = resultSet.getLong(i);
-        Date date = new Date(aLong);
-        return date;
-    }
-
-    // 将数据库中的类型转换成java的类型
-    @Override
-    public Date getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
-        long aLong = callableStatement.getLong(i);
-        Date date = new Date(aLong);
-        return date;
-    }
-}
-```
-
-②在SqlMapConfig.xml文件中配置自定义类型处理器的注册
-
-```xml
-<!--定义别名，需要放到properties后面，放到靠前的位置，否则报错不匹配-->
-<typeAliases>
-    <typeAlias type="com.itheima.domain.User" alias="user"/>
-</typeAliases>
-
-<!--注册自定义类型处理器-->
-<typeHandlers>
-    <typeHandler handler="com.itheima.handler.DateTypeHandler"/>
-</typeHandlers>
-
-<!--配置数据源环境-->
-```
-
-根据具体情况，这些标签在environments标签内需要注意顺序，不能随意更换顺序。
-
-③运行之前的测试类MapperTest
-
-```java
-public class MapperTest {
-
-    @Test
-    public void test1() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        // 创造User对象，此处数据库设置主键id自增长
-        User user = new User();
-        user.setUsername("test");
-        user.setPassword("123");
-        user.setBirthday(new Date());
-        // 执行保存操作
-        userMapper.save(user);
-
-        sqlSession.close();
-    }
-
-}
-```
-
-运行结果如下所示，数据库中成功添加数据，但是并没有正确显示成日期格式。翻看日志文件，其中关于插入的语句正确显示，也确实是将long类型的数据写入了数据库的bigint类型的数据中。
-
-> 2021-04-14 00:34:15,987 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 1034909474.
-> 2021-04-14 00:34:15,994 DEBUG [com.itheima.mapper.UserMapper.save] - ==>  Preparing: insert into user values (?, ?, ?, ?)
-> 2021-04-14 00:34:16,064 DEBUG [com.itheima.mapper.UserMapper.save] - ==> Parameters: 0(Integer), test(String), 123(String), 1618331655248(Long)
-> 2021-04-14 00:34:16,073 DEBUG [com.itheima.mapper.UserMapper.save] - <==    Updates: 1
-> 2021-04-14 00:34:16,073 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@3daf7722]
-> 2021-04-14 00:34:16,073 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 1034909474 to pool.
->
-> Process finished with exit code 0
-
-![image-20210414003554714](https://i.loli.net/2021/04/14/YubPg5nWBXSHTa7.png)
-
-数据库中的查询数据是bigint类型，但是在Java中保存的是一个long类型，自定义的类型处理器就是将java中的类型转换成数据库中的数据类型。但是在查询数据的时候，为了真正实现需求，我们需要将数据转换成日期date格式的数据。
-
-④在UserMapper接口文件中创建新的查询方法的接口，并且在UserMapper.xml文件中添加新的select标签，利用代理开发的方式自动创建实现Mybatis的dao层。
-
-```java
-public interface UserMapper {
-
-    public void save(User user);
-
-    public User findById(int id);
-}
-```
-
-```xml
-<!--查询操作-->
-<select id="findById" parameterType="int" resultType="user">
-    select * from user where id = #{id}
-</select>
-```
-
-⑤添加新的test方法
-
-```java
-@Test
-public void test2() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-    User user = userMapper.findById(5);
-    System.out.println("id为5的user的birthday：" + user.getBirthday());
-
-    sqlSession.close();
-}
-```
-
-运行的时候结果如下：
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> 2021-04-14 00:49:51,424 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 45822040.
-> 2021-04-14 00:49:51,429 DEBUG [com.itheima.mapper.UserMapper.findById] - ==>  Preparing: select * from user where id = ?
-> 2021-04-14 00:49:51,499 DEBUG [com.itheima.mapper.UserMapper.findById] - ==> Parameters: 5(Integer)
-> 2021-04-14 00:49:51,607 DEBUG [com.itheima.mapper.UserMapper.findById] - <==      Total: 1
-> id为5的user的birthday：Wed Apr 14 00:34:15 CST 2021
-> 2021-04-14 00:49:51,610 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@2bb3058]
-> 2021-04-14 00:49:51,610 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 45822040 to pool.
->
-> Process finished with exit code 0
-
-可以看到输出的结果已经正确显示为时间日期格式，可以正确正常使用。
-
-### plugins标签
-
-Mybatis可以使用第三方插件来对功能进行扩展，分页助手PageHelper是将分页的复杂操作进行封装，使用简单的方式即可获得分页的相关数据。
-
-开发步骤：
-
-①导入通用PageHelper的坐标
-
-在pom.xml文件中导入相关的依赖坐标
-
-```xml
-<dependency>
-    <groupId>com.github.pagehelper</groupId>
-    <artifactId>pagehelper</artifactId>
-    <version>3.7.5</version>
-</dependency>
-<dependency>
-    <groupId>com.github.jsqlparser</groupId>
-    <artifactId>jsqlparser</artifactId>
-    <version>0.9.1</version>
-</dependency>
-```
-
-②在Mybatis的核心配置文件中配置PageHelper插件
-
-在SqlMapConfig.xml文件中配置插件
-
-```xml
-<!--配置分页助手插件-->
-<plugins>
-    <plugin interceptor="com.github.pagehelper.PageHelper">
-        <property name="dialect" value="mysql"/>
-    </plugin>
-</plugins>
-```
-
-③测试分页数据获取
-
-```java
-@Test
-public void test3() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-    // 设置分页相关的参数：当前页和每页显示的条数
-    PageHelper.startPage(1, 3);
-
-    // 查询全部
-    List<User> userList  = userMapper.findAll();
-    for (User user : userList) {
-        System.out.println(user);
-    }
-
-    sqlSession.close();
-}
-```
-
-查看下面的运行效果，可以看到出现了一条`select * from user limit ?,?`的sql语句，已经实现了分页查询。
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> 2021-04-14 16:10:26,142 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 282003944.
-> 2021-04-14 16:10:26,152 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper_Count] - ==>  Preparing: SELECT count(*) FROM user
-> 2021-04-14 16:10:26,237 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper_Count] - ==> Parameters: 
-> 2021-04-14 16:10:26,338 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper_Count] - <==      Total: 1
-> 2021-04-14 16:10:26,341 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper] - ==>  Preparing: select * from user limit ?,?
-> 2021-04-14 16:10:26,344 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper] - ==> Parameters: 0(Integer), 3(Integer)
-> 2021-04-14 16:10:26,354 DEBUG [com.itheima.mapper.UserMapper.findAll_PageHelper] - <==      Total: 3
-> User{id=1, username='zhangsan', password='123', birthday=Thu Jan 01 08:00:00 CST 1970}
-> User{id=2, username='lisi', password='123', birthday=Thu Jan 01 08:00:00 CST 1970}
-> User{id=3, username='wangwu', password='123', birthday=Thu Jan 01 08:00:00 CST 1970}
-> 2021-04-14 16:10:26,375 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@10cf09e8]
-> 2021-04-14 16:10:26,375 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 282003944 to pool.
->
-> Process finished with exit code 0
-
-### 分页相关数据的获取
-
-```java
-@Test
-public void test3() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-
-    // 设置分页相关的参数：当前页和每页显示的条数
-    PageHelper.startPage(2, 3);
-
-    // 查询全部
-    List<User> userList  = userMapper.findAll();
-    for (User user : userList) {
-        System.out.println(user);
-    }
-
-    // 获得与分页相关的一些参数
-    PageInfo<User> pageInfo = new PageInfo<User>(userList);
-    System.out.println("当前页：" + pageInfo.getPageNum());
-    System.out.println("每页显示的条数：" + pageInfo.getPageSize());
-    System.out.println("总条数：" + pageInfo.getTotal());
-    System.out.println("总页数：" + pageInfo.getPages());
-    System.out.println("上一页：" + pageInfo.getPrePage());
-    System.out.println("下一页：" + pageInfo.getNextPage());
-    System.out.println("是否是第一页：" + pageInfo.isIsFirstPage());
-    System.out.println("是否是最后一页：" + pageInfo.isIsLastPage());
-
-
-    sqlSession.close();
-}
-```
-
-对于分页助手这一插件，想要获取分页相关的参数，在插件中已经实现了相关功能的封装，能够实现相关数据的直接获取，利用PageInfo这一封装类即可。运行结果如下：
-
-> User{id=4, username='zhaoliu', password='123', birthday=Thu Jan 01 08:00:00 CST 1970}
-> User{id=5, username='test', password='123', birthday=Wed Apr 14 00:34:15 CST 2021}
-> 当前页：2
-> 每页显示的条数：3
-> 总条数：5
-> 总页数：2
-> 上一页：1
-> 下一页：0
-> 是否是第一页：false
-> 是否是最后一页：true
-
-### 知识小结
-
-Mybatis核心配置文件常用标签
-
-![image-20210414162542321](https://i.loli.net/2021/04/14/u7KJ4oxlbMIN1tS.png)
-
-## 二十六、Mybatis的多表操作
-
-### 一对一模型
-
-一对一查询的模型
-
-![image-20210414162935359](https://i.loli.net/2021/04/14/Mivkpjonsd8fwX6.png)
-
-环境搭建
-
-①在数据库中创建相关的订单数据表
-
-```mysql
-use test;
-create table orders
-(
-id int auto_increment not null primary key,
-ordertime date not null,
-total double not null,
-uid int not null
-);
-```
-
-②在domain包下创建新的Order实体
-
-```java
-public class Order {
-
-    private int id;
-    private Date orderTime;
-    private double total;
-
-    // 表示当前订单属于哪个用户
-    // private int uid;
-    private User user;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", orderTime=" + orderTime +
-                ", total=" + total +
-                ", user=" + user +
-                '}';
-    }
-}
-```
-
-③在mapper下创建OrderMapper的接口文件，顺便在映射文件Mapper目录下创建OrderMapper.xml的映射文件，里面暂时都为空，不添加数据，在SqlMapConfig.xml文件中定义Order实体的别名。
-
-```xml
-<!--定义别名，需要放到properties后面，放到靠前的位置，否则报错不匹配-->
-<typeAliases>
-    <typeAlias type="com.itheima.domain.User" alias="user"/>
-    <typeAlias type="com.itheima.domain.Order" alias="order"/>
-</typeAliases>
-```
-
-![image-20210414170227943](https://i.loli.net/2021/04/14/TN1D3ca6MXlyKoA.png)
-
-④在SqlMapConfig.xml文件中引入刚刚创建好的OrderMapper.xml文件
-
-```xml
-<!--加载映射文件-->
-<mappers>
-    <mapper resource="com.itheima.mapper/UserMapper.xml"/>
-    <mapper resource="com.itheima.mapper/OrderMapper.xml"/>
-</mappers>
-```
-
-### 配置实现
-
-①在OrderMapper.xml映射配置文件中，添加如下的代码
-
-```xml
-<mapper namespace="com.itheima.mapper.OrderMapper">
-
-    <resultMap id="orderMap" type="order">
-        <!--手动指定对象和实体属性之间的映射关系-->
-        <!--column : 数据表的字段名称-->
-        <!--property : 实体的属性名称-->
-        <id column="oid" property="id"/>
-        <result column="ordertime" property="orderTime"/>
-        <result column="total" property="total"/>
-        <result column="uid" property="user.id"/>
-        <result column="username" property="user.username"/>
-        <result column="password" property="user.password"/>
-        <result column="birthday" property="user.birthday"/>
-    </resultMap>
-    
-    <!--查询操作-->
-    <select id="findAll" resultMap="orderMap">
-        select *, o.id oid, u.id uid from user u, orders o
-        where o.uid=u.id;
-    </select>
-
-</mapper>
-```
-
-②在测试类中编写如下
-
-```java
-@Test
-public void test1() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
-    List<Order> orderList = orderMapper.findAll();
-
-    for (Order order : orderList) {
-        System.out.println(order);
-    }
-
-    sqlSession.close();
-}
-```
-
-测试的运行结果如下所示：
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> 2021-04-14 17:35:46,513 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 402695541.
-> 2021-04-14 17:35:46,517 DEBUG [com.itheima.mapper.OrderMapper.findAll] - ==>  Preparing: select *, o.id oid, u.id uid from user u, orders o where o.uid=u.id;
-> 2021-04-14 17:35:46,574 DEBUG [com.itheima.mapper.OrderMapper.findAll] - ==> Parameters: 
-> 2021-04-14 17:35:46,641 DEBUG [com.itheima.mapper.OrderMapper.findAll] - <==      Total: 2
-> Order{id=1, orderTime=Mon Apr 01 00:00:00 CST 2019, total=3500.0, user=User{id=2, username='lisi', password='123', birthday=null}}
-> Order{id=2, orderTime=Wed Apr 03 00:00:00 CST 2019, total=4200.0, user=User{id=1, username='zhangsan', password='123', birthday=null}}
-> 2021-04-14 17:35:46,989 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@1800a575]
-> 2021-04-14 17:35:46,990 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 402695541 to pool.
->
-> Process finished with exit code 0
-
-正常运行，也能够实现一对多的查询操作。Order和User的对应的结果也都存在。
-
-其中，关于手动指定对象和实体属性之间的关系，还有另外一种的配置方法。
-
-```xml
-<resultMap id="orderMap" type="order">
-    <!--手动指定对象和实体属性之间的映射关系-->
-    <!--column : 数据表的字段名称-->
-    <!--property : 实体的属性名称-->
-    <id column="oid" property="id"/>
-    <result column="ordertime" property="orderTime"/>
-    <result column="total" property="total"/>
-    <!--<result column="uid" property="user.id"/>
-    <result column="username" property="user.username"/>
-    <result column="password" property="user.password"/>
-    <result column="birthday" property="user.birthday"/>-->
-    <!--与……相匹配-->
-    <!--
-        property : 当前实体 Order 的属性名称 private User user
-        javaType : 代表当前实体 Order 中的属性的类型
-    -->
-    <association property="user" javaType="user">
-        <id column="uid" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="birthday" property="birthday"/>
-    </association>
-</resultMap>
-```
-
-### 一对多配置实现
-
-①创建新的OrderMapper.xml文件，新的配置如下
-
-```xml
-<mapper namespace="com.itheima.mapper.OrderMapper">
-
-    <resultMap id="orderMap" type="order">
-        <!--手动指定对象和实体属性之间的映射关系-->
-        <!--column : 数据表的字段名称-->
-        <!--property : 实体的属性名称-->
-        <id column="oid" property="id"/>
-        <result column="ordertime" property="orderTime"/>
-        <result column="total" property="total"/>
-        <!--<result column="uid" property="user.id"/>
-        <result column="username" property="user.username"/>
-        <result column="password" property="user.password"/>
-        <result column="birthday" property="user.birthday"/>-->
-        <!--与……相匹配-->
-        <!--
-            property : 当前实体 Order 的属性名称 private User user
-            javaType : 代表当前实体 Order 中的属性的类型
-        -->
-        <association property="user" javaType="user">
-            <id column="uid" property="id"/>
-            <result column="username" property="username"/>
-            <result column="password" property="password"/>
-            <result column="birthday" property="birthday"/>
-        </association>
-    </resultMap>
-    
-    <!--查询操作-->
-    <select id="findAll" resultMap="orderMap">
-        select *, o.id oid, u.id uid from user u, orders o where o.uid=u.id
-    </select>
-
-</mapper>
-```
-
-②在User中修改成如下
-
-```java
-public class User {
-
-    private int id;
-    private String username;
-    private String password;
-    private Date birthday;
-
-    // 描述的是当前用户存在哪些订单
-    private List<Order> orderList;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", birthday=" + birthday +
-                ", orderList=" + orderList +
-                '}';
-    }
-
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-}
-```
-
-③在UserMapper.xml文件中，配置如下
-
-```xml
-<mapper namespace="com.itheima.mapper.UserMapper">
-
-    <resultMap id="userMap" type="user">
-        <id column="uid" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="birthday" property="birthday"/>
-        <!--配置集合信息-->
-        <!--property : 集合名称-->
-        <!--ofType : 集合当中的数据类型-->
-        <collection property="orderList" ofType="order">
-            <!--封装 order 的数据-->
-            <id column="oid" property="id"/>
-            <result column="orderTime" property="orderTime"/>
-            <result column="total" property="total"/>
-        </collection>
-    </resultMap>
-    
-    <!--查询操作-->
-    <select id="findAll" resultMap="userMap">
-        select *, o.id oid from user u, orders o where o.uid=u.id
-    </select>
-    
-</mapper>
-```
-
-④在测试类中添加新的测试方法
-
-```java
-@Test
-public void test2() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-
-    UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-    List<User> userList  = mapper.findAll();
-
-    for (User user : userList) {
-        System.out.println(user);
-    }
-
-    sqlSession.close();
-}
-```
-
-运行结果如下所示：
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> 2021-04-14 23:36:40,443 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 557023099.
-> 2021-04-14 23:36:40,448 DEBUG [com.itheima.mapper.UserMapper.findAll] - ==>  Preparing: select *, o.id oid from user u, orders o where o.uid=u.id
-> 2021-04-14 23:36:40,506 DEBUG [com.itheima.mapper.UserMapper.findAll] - ==> Parameters: 
-> 2021-04-14 23:36:40,559 DEBUG [com.itheima.mapper.UserMapper.findAll] - <==      Total: 2
-> User{id=2, username='lisi', password='123', birthday=null, orderList=[Order{id=1, orderTime=Mon Apr 01 00:00:00 CST 2019, total=3500.0, user=null}]}
-> User{id=1, username='zhangsan', password='123', birthday=null, orderList=[Order{id=2, orderTime=Wed Apr 03 00:00:00 CST 2019, total=4200.0, user=null}]}
-> 2021-04-14 23:36:40,583 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@21337f7b]
-> 2021-04-14 23:36:40,584 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 557023099 to pool.
->
-> Process finished with exit code 0
-
-由上面的语句可以看出，已经能够实现一对多的查询操作
-
-### 多对多模型
-
-![image-20210415140043094](https://i.loli.net/2021/04/15/tcOnsQeE2wr8u7X.png)
-
-实际操作中，步骤如下
-
-①首先在数据库中要创建新的多对多的关系模型
-
-创建表格sys_user_role和sys_role表格，并往表格中插入相关的数据
-
-```mysql
-use test;
-create table sys_role
-(
-id int primary key,
-roleName char(10),
-roleDesc char(20)
-);
-
-insert into sys_role
-values
-(1, '院长', '负责全面工作'),
-(2, '研究员', '课程研发工作'),
-(3, '讲师', '授课工作');
-
-select * from test.sys_role;
-
-use test;
-create table sys_user_role
-(
-userId int primary key,
-roleId int
-);
-
-alter table sys_user_role drop primary key;
-
-insert into sys_user_role values
-(1, 1), (1, 2), (2, 2), (2, 3);
-
-select * from sys_user_role;
-
-select * from user u, sys_user_role ur, sys_role r where u.id=ur.userId and ur.roleId=r.id;
-```
-
-②创建好实体类Role，以对应之前创建的表格中的对象数据
-
-```java
-public class Role {
-
-    private int id;
-    private String roleName;
-    private String roleDesc;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleDesc() {
-        return roleDesc;
-    }
-
-    public void setRoleDesc(String roleDesc) {
-        this.roleDesc = roleDesc;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", roleName='" + roleName + '\'' +
-                ", roleDesc='" + roleDesc + '\'' +
-                '}';
-    }
-}
-```
-
-在User类中创建好对应的User—Role对应的数据集合
-
-```java
-// 描述当前用户具备哪些角色
-private List<Role> roleList;
-
-@Override
-public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            ", birthday=" + birthday +
-            ", roleList=" + roleList +
-            '}';
-}
-```
-
-在UserMapper的接口中添加新的方法`findUserAndRoleAll()`
-
-```java
-public interface UserMapper {
-
-    List<User> findAll();
-
-    List<User> findUserAndRoleAll();
-
-}
-```
-
-③在UserMapper.xml文件和SqlMapConfig.xml文件中创建相关的配置
-
-在核心配置文件中添加别名
-
-```xml
-<!--定义别名，需要放到properties后面，放到靠前的位置，否则报错不匹配-->
-<typeAliases>
-    <typeAlias type="com.itheima.domain.User" alias="user"/>
-    <typeAlias type="com.itheima.domain.Order" alias="order"/>
-    <typeAlias type="com.itheima.domain.Role" alias="role"/>
-</typeAliases>
-```
-
-在映射配置文件中添加相关的sql语句以及结果映射
-
-```xml
-<!--查询UserAndRole-->
-<resultMap id="userRoleMap" type="user">
-    <!--user 信息-->
-    <id column="userId" property="id"/>
-    <result column="username" property="username"/>
-    <result column="password" property="password"/>
-    <result column="birthday" property="birthday"/>
-    <!--user 内部的 userList 信息-->
-    <collection property="roleList" ofType="role">
-        <id column="roleId" property="id"/>
-        <result column="roleName" property="roleName"/>
-        <result column="roleDesc" property="roleDesc"/>
-    </collection>
-</resultMap>
-
-<select id="findUserAndRoleAll" resultMap="userRoleMap">
-    select * from user u, sys_user_role ur, sys_role r
-    where u.id=ur.userId and ur.roleId=r.id
-</select>
-```
-
-④在测试类中进行测试
-
-上述的配置完成之后，我们就可以进入测试类中进行相关的测试了。
-
-运行sql语句：`select * from user u, sys_user_role ur, sys_role r where u.id=ur.userId and ur.roleId=r.id;`
-
-在MySQL中的查询结果如下
-
-![image-20210415152726417](https://i.loli.net/2021/04/15/Zh1DG2kKyFrcaxM.png)
-
-之后我们根据查询结果，对应出相关的column属性以及property属性，编写好配置文件之后，我们开始进行编写测试类的工作。
-
-```Java
-@Test
-public void test3() throws IOException {
-    InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-    SqlSession sqlSession = sqlSessionFactory.openSession(true);
-
-    UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-    List<User> userAndRoleAll = mapper.findUserAndRoleAll();
-    for (User user : userAndRoleAll) {
-        System.out.println(user);
-    }
-    sqlSession.close();
-}
-```
-
-运行结果如下所示
-
-> Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-> 2021-04-15 15:19:52,883 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 273077527.
-> 2021-04-15 15:19:52,889 DEBUG [com.itheima.mapper.UserMapper.findUserAndRoleAll] - ==>  Preparing: select * from user u, sys_user_role ur, sys_role r where u.id=ur.userId and ur.roleId=r.id
-> 2021-04-15 15:19:52,947 DEBUG [com.itheima.mapper.UserMapper.findUserAndRoleAll] - ==> Parameters: 
-> 2021-04-15 15:19:53,009 DEBUG [com.itheima.mapper.UserMapper.findUserAndRoleAll] - <==      Total: 4
-> User{id=1, username='zhangsan', password='123', birthday=null, roleList=[Role{id=1, roleName='院长', roleDesc='负责全面工作'}, Role{id=2, roleName='研究员', roleDesc='课程研发工作'}]}
-> User{id=2, username='lisi', password='123', birthday=null, roleList=[Role{id=2, roleName='研究员', roleDesc='课程研发工作'}, Role{id=3, roleName='讲师', roleDesc='授课工作'}]}
-> 2021-04-15 15:19:53,035 DEBUG [org.apache.ibatis.transaction.jdbc.JdbcTransaction] - Closing JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@1046d517]
-> 2021-04-15 15:19:53,035 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Returned connection 273077527 to pool.
->
-> Process finished with exit code 0
-
-可以看出，多对多的查询操作的结果已经能够正常显示出来。
-
-### 知识小结
-
-Mybatis的多表操作
-
-一对一操作：使用`<resultMap>`做配置
-
-一对多操作：使用`<resultMap> + <collection>`做配置
-
-多对多操作：使用`<resultMap> + <collection>`做配置
-
-## 二十七、Mybatis的注解开发
-
-### 常用注解
-
-近些时间注解开发越来越流行，能够减少我们编写Mapper映射文件的步骤，所以变得越来越重要。
-
-常用的注解有以下这些：
-
-| @Insert	实现新增      | @Update	实现更新                            | @Delete	实现删除        | @Select	实现查询         |
-| ------------------------ | ---------------------------------------------- | -------------------------- | --------------------------- |
-| @Result   实现结果集封装 | @Results  可以和Result一起使用，封装多个结果集 | @One  实现一对一结果集封装 | @Many  实现一对多结果集封装 |
-
-### XML完成基本的CRUD
-
-这一步需要完成的步骤和前面的一样：创建新的项目，然后实现XML配置文件的方式实现CRUD的操作。配置文件和测试文件代码如下：
-
-```xml
-<mapper namespace="com.itheima.mapper.UserMapper">
-
-    <!--插入操作-->
-    <insert id="save" parameterType="user">
-        insert into user values (#{id}, #{username}, #{password}, #{birthday})
-    </insert>
-    
-    <!--修改操作-->
-    <update id="update" parameterType="user">
-        update user set username=#{username},password=#{password} where id=#{id}
-    </update>
-    
-    <!--删除操作-->
-    <delete id="delete" parameterType="int">
-        delete from user where id=#{id}
-    </delete>
-
-    <!--查询操作-->
-    <select id="findById" parameterType="int" resultType="user">
-        select * from user where id = #{id}
-    </select>
-
-    <!--查询全部-->
-    <select id="findAll" resultType="user">
-        select * from user
-    </select>
-    
-</mapper>
-```
-
-测试类
-
-```java
-public class MybatisTest {
-
-    private UserMapper userMapper;
-
-    @Before
-    public void before() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        userMapper = sqlSession.getMapper(UserMapper.class);
-    }
-
-    @Test
-    public void testSave() {
-        User user = new User();
-        user.setUsername("Tom");
-        user.setPassword("abc");
-        userMapper.save(user);
-    }
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:applicationContext.xml")
+public class JdbcTemplateCRUDTest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     public void testUpdate() {
-        User user = new User();
-        user.setId(7);
-        user.setUsername("Lucy");
-        user.setPassword("123");
-        userMapper.update(user);
+        jdbcTemplate.update("insert into account values{?, ?}", 10000, "Tom");
     }
 
     @Test
     public void testDelete() {
-        userMapper.delete(7);
+        jdbcTemplate.update("delete from account where name = ?", "Tom");
+
     }
 
     @Test
-    public void testFindById() {
-        User user = userMapper.findById(2);
-        System.out.println(user);
+    public void testQueryAll() {
+        List<Account> accountList = jdbcTemplate.query("select * from account", new BeanPropertyRowMapper<Account>(Account.class));
+        System.out.println(accountList);
     }
 
     @Test
-    public void testFindAll() {
-        List<User> userList = userMapper.findAll();
-        for (User user : userList) {
-            System.out.println(user);
-        }
+    public void testQueryOne() {
+        Account account = jdbcTemplate.queryForObject("select * from account where name = ?", new BeanPropertyRowMapper<Account>(Account.class), "Tom");
+        System.out.println(account);
     }
+
+    @Test
+    public void testQueryCount() {
+        Long count = jdbcTemplate.queryForObject("select count(*) from account", Long.class);
+        System.out.println(count);
+    }
+
 }
 ```
 
-最终都能成功正常运行并输出相关的数据结果。接下来我们要针对这些操作将这些XML配置文件的方式转换成注解开发的方式。
+#### 知识要点
 
-### 注解完成CRUD
+![image-20210404234422204](https://i.loli.net/2021/04/04/jyDIhEsAoXGNHFa.png)
 
-①删除原先的UserMapper.xml配置文件
+关于使用步骤的解释：
 
-②因为不需要映射文件了，所以在核心配置文件中也需要删掉相关的加载映射文件的语句。
+①导入坐标，spring-jdbc坐标，其中包含了jdbcTemplate模板；spring-tx坐标中包含了数据库的事务
 
-但是在此时还不能将所有的核心配置文件全部删除，因为在加载核心配置文件的时候还暂时涉及到数据库的连接参数等的获取。
+②提供操作对象，在操作的时候还要创建数据的对象接口类，方便后面使用模板对结果集进行操作
 
-我们在这里将加载映射文件的语句改为加载映射关系的语句：
+③创建对象之后还要设置数据源对象
+
+④执行操作，主要使用的spring中的封装，对查询的结果集做了一定的封装，能够直接使用（实体行属性）
+
+## 九、Spring的事务控制
+
+### 编程式事务控制相关对象
+
+#### PlatformTransactionManager
+
+![image-20210404235330509](https://i.loli.net/2021/04/04/jpHGknJdewFQ7la.png)
+
+#### TransactionDefinition
+
+![image-20210405000803460](https://i.loli.net/2021/04/05/Du69JoihnOtcZAd.png)
+
+#### 事务的隔离级别
+
+![image-20210405213243792](https://i.loli.net/2021/04/05/CBKphEA1RU6cDxJ.png)
+
+#### 事务的传播行为
+
+![image-20210405213535625](https://i.loli.net/2021/04/05/3TqdxH8Pg7m6ZLs.png)
+
+#### TransactionStatus
+
+![image-20210405214407960](https://i.loli.net/2021/04/05/7svcpWH2dFfoQBr.png)
+
+事务运行的过程中的一些运行状态信息。
+
+#### 知识总结
+
+编程式事务控制的三大对象
+
+> PlatformTransactionManager：平台事务管理器
+>
+> TransactionDefinition：事务定义
+>
+> TransactionStatus：事务状态，被动封装的一个对象，指的是事务控制时的状态信息
+
+### 基于XML的声明式事务控制
+
+Spring的声明式事务控制，顾名思义就是**采取声明的方式来处理事务**。这里所说的声明，就是在配置文件中的声明，用在Spring配置文件中声明式地处理事务来代替代码的处理事务。
+
+**作用**
+
+![image-20210405215535585](https://i.loli.net/2021/04/05/SnGEdN5cwHJIZhW.png)
+
+
+
+> **注意**：Spring声明式事务控制底层就是AOP
+
+#### 实际使用
+
+①创建新的Module，在其中的pom.xml文件中配置好需要的依赖
 
 ```xml
-<!--加载映射关系-->
-<mappers>
-    <!--指定接口所在的包-->
-    <package name="com.itheima.mapper"/>
-</mappers>
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+        <version>1.9.6</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>5.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.1.2</version>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.32</version>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 ```
 
-③在接口文件中添加注解，完成注解开发
+②创建好需要的类——保存对应数据信息的Account类
 
 ```java
-public interface UserMapper {
+public class Account {
+    private String name;
+    private double money;
 
-    @Insert("insert into user values (#{id}, #{username}, #{password}, #{birthday})")
-    void save(User user);
-
-    @Update("update user set username=#{username},password=#{password} where id=#{id}")
-    void update(User user);
-
-    @Delete("delete from user where id=#{id}")
-    void delete(int id);
-
-    @Select("select * from user where id = #{id}")
-    User findById(int id);
-
-    @Select("select * from user")
-    List<User> findAll();
-}
-```
-
-在这个接口类中，每个接口上面添加相应的sql语句操作的注解。
-
-④在测试类中测试运行
-
-```java
-public class MybatisTest {
-
-    private UserMapper userMapper;
-
-    @Before
-    public void before() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        userMapper = sqlSession.getMapper(UserMapper.class);
+    public String getName() {
+        return name;
     }
 
-    @Test
-    public void testSave() {
-        User user = new User();
-        user.setUsername("Tom");
-        user.setPassword("abc");
-        userMapper.save(user);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Test
-    public void testUpdate() {
-        User user = new User();
-        user.setId(8);
-        user.setUsername("Lucy");
-        user.setPassword("123");
-        userMapper.update(user);
+    public double getMoney() {
+        return money;
     }
 
-    @Test
-    public void testDelete() {
-        userMapper.delete(8);
-    }
-
-    @Test
-    public void testFindById() {
-        User user = userMapper.findById(2);
-        System.out.println(user);
-    }
-
-    @Test
-    public void testFindAll() {
-        List<User> userList = userMapper.findAll();
-        for (User user : userList) {
-            System.out.println(user);
-        }
+    public void setMoney(double money) {
+        this.money = money;
     }
 }
 ```
 
-此时运行结果正确，能够得到操作之后的结果。这一步骤的注解开发就是能够实现简单的查询操作，能够实现减少配置文件的使用，做到简化开发。
-
-### 注解完成一对一开发
-
-![image-20210415171419413](https://i.loli.net/2021/04/15/bIgj6F9VtWrGh3f.png)
-
-![image-20210415171636339](https://i.loli.net/2021/04/15/JOrqLY4sUFi6yg7.png)
-
-实际操作：一对一关系中，我们利用之前的数据模型来完成，用户和订单的关系模型
-
-①创建Order实体类以及OrderMapper类
+③在dao层添加对应的接口以及实现方法，实现方法实现了账户存取款以及转账的流程。
 
 ```java
-public interface OrderMapper {
+public class AccountDaoImpl implements AccountDao {
 
-    @Select("select *,o.id oid from orders o,user u where o.uid=u.id")
-    @Results({
-            @Result(column = "oid", property = "id"),
-            @Result(column = "ordertime", property = "orderTime"),
-            @Result(column = "total", property = "total"),
-            @Result(column = "uid", property = "user.id"),
-            @Result(column = "username", property = "user.username"),
-            @Result(column = "password", property = "user.password")
-    })
-    public List<Order> findAll();
+    private JdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void out(String outMan, double money) {
+        jdbcTemplate.update("update account " +
+                "set money = money - ? where name = ?", money, outMan);
+    }
+
+    public void in(String inMan, double money) {
+        jdbcTemplate.update("update account " +
+                "set money = money + ? where name = ?", money, inMan);
+    }
 
 }
 ```
 
-以上的就是用注解实现一对一复杂查询，利用Results和Result注解实现对查询结果集的封装工作
-
-②创建新的测试类，运行测试
+④在Service层加入执行转账的代码
 
 ```java
-public class MybatisTest2 {
+public class AccountServiceImpl implements AccountService {
 
-    private OrderMapper orderMapper;
+    private AccountDao accountDao;
 
-    @Before
-    public void before() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        orderMapper = sqlSession.getMapper(OrderMapper.class);
+    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
     }
 
-    @Test
-    public void testSave() {
-        List<Order> orderList = orderMapper.findAll();
-        for (Order order : orderList) {
-            System.out.println(order);
-        }
+    public void transfer(String outMan, String inMan, double money) {
+        accountDao.out(outMan, money);
+		// int i = 1 / 0;
+        accountDao.in(inMan, money);
     }
 }
 ```
 
-运行结果
+⑤在web层加入实际的运行代码
 
-> 2021-04-15 17:32:41,664 DEBUG [org.apache.ibatis.datasource.pooled.PooledDataSource] - Created connection 1597328335.
-> 2021-04-15 17:32:41,668 DEBUG [com.itheima.mapper.OrderMapper.findAll] - ==>  Preparing: select *,o.id oid from orders o,user u where o.uid=u.id
-> 2021-04-15 17:32:41,721 DEBUG [com.itheima.mapper.OrderMapper.findAll] - ==> Parameters: 
-> 2021-04-15 17:32:41,759 DEBUG [com.itheima.mapper.OrderMapper.findAll] - <==      Total: 2
-> Order{id=1, orderTime=Mon Apr 01 00:00:00 CST 2019, total=3500.0, user=User{id=2, username='lisi', password='123', birthday=null}}
-> Order{id=2, orderTime=Wed Apr 03 00:00:00 CST 2019, total=4200.0, user=User{id=1, username='zhangsan', password='123', birthday=null}}
+```java
+public class AccountController {
+
+    public static void main(String[] args) {
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+        AccountService accountService = app.getBean(AccountService.class);
+        AccountService.transfer("Tom", "Lucy", 500);
+    }
+
+}
+```
+
+如果在上述的Transfer方法中存在错误，导致out运行而in没有运行，则会产生严重的后果，钱转出去了而目标账户余额没有增加。
+
+这个时候就有了增加业务控制的需要。声明式的事务控制实质上是基于Spring中的AOP来实现的，所以需要用到通知增强。
+
+所以，我们需要知道的有：谁是切点、谁是通知、配置切面
+
+出问题的地方就是之前的转账方法transfer方法，所以切点是转账方法。通知就是我们要实现的增强，其实就是事务增强，就是事务控制。配置切面就是添加事务控制。
+
+在applicationContext.xml文件中配置事务控制的增强
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+
+    <<!--配置数据源对象-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!--配置Jdbc模板对象-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="accountDao" class="com.itheima.dao.impl.AccountDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <!--目标对象，切点-->
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao"/>
+    </bean>
+
+    <!--配置平台事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--通知 事务控制-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务AOP织入-->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.itheima.service.impl.*.*(..))"/>
+    </aop:config>
+
+</beans>
+```
+
+最终，有错误的存在，能够成功控制事务，不提交错误异常情况下的操作。
+
+```xml
+<!--通知 事务控制-->
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <!--设置事务的属性信息-->
+    <tx:attributes>
+        <tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" timeout="-1" read-only="false"/>
+    </tx:attributes>
+</tx:advice>
+```
+
+在中间的标签中，出现了隔离级别，传播行为、超时时间、是否只读。name表示的是对哪个方法进行单独的增强，*代表对所有的方法都进行一个增强。在实际情况中，不同方法可以单独进行不同的事务控制属性配置。如果不写，则为默认属性。
+
+![image-20210405225354305](https://i.loli.net/2021/04/05/aPt4drpiXHVSDzg.png)
+
+#### 知识要点
+
+声明式事务控制的要点
+
+> 平台事务管理器的配置
 >
-> Process finished with exit code 0
+> 事务通知的配置
+>
+> 事务AOP织入的配置
 
-可以看到sql语句，已经正常实现了查询，但是在实际中，我们需要使用到的远不止如此。
+### 基于注解的声明式事务控制
 
-我们还可以用另外一种方式实现注解开发。
+在上述的项目中，对事务控制进行注解实现。
 
-```java
-@Select("select * from orders")
-@Results({
-        @Result(column = "id", property = "id"),
-        @Result(column = "ordertime", property = "orderTime"),
-        @Result(column = "total", property = "total"),
-        @Result(
-                property = "user",  // 表示要封装的属性名称
-                column = "uid",     // 根据哪个字段去查询user表的数据
-                javaType = User.class,      // 要封装的属性实体类型
-                // select 属性 代表查询哪个接口的方法获得数据
-                one = @One(select = "com.otheima.mapper.UserMapper.findById")
-        )
-})
-List<Order> findAll();
-```
-
-在OrderMapper文件中这样编写，之后运行测试中的类，可以看到运行没有出错。
-
-### 注解完成一对多开发
-
-![image-20210418165623171](https://i.loli.net/2021/04/18/eMwBE3gVLAvpuIG.png)
-
-现在我们的需求是完后一对多的开发并利用注解实现。
-
-实现逻辑：因为要实现一对多的查询，查询的是一个用户对应的多个订单。任务是将所有用户各自对应的所有订单信息都查询出来。所以我们首先应该实现逻辑查询语句。
-
-```mysql
-use test;
-select * from user;
-select * from orders where uid=1;
-```
-
-①创建User类中的新的实体属性，以对应当前用户对应的订单信息，并添加对应的get和set方法
+①首先在需要进行事务控制的类中进行相应的注解
 
 ```java
-// 描述的是当前用户具有的订单
-private List<Order> orderList;
+@Service("accountService")
+@Transactional(isolation = Isolation.DEFAULT)
+public class AccountServiceImpl implements AccountService {
 
-@Override
-public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            ", birthday=" + birthday +
-            ", orderList=" + orderList +
-            '}';
-}
-```
+    @Autowired
+    private AccountDao accountDao;
 
-②在OrderMapper中添加新的方法，并用注解的方式实现查询语句的执行
+//    public void setAccountDao(AccountDao accountDao) {
+//        this.accountDao = accountDao;
+//    }
 
-```java
-@Select("select * from orders where uid=#{uid}")
-List<Order> findByUid(int uid);
-```
+    @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+    public void transfer(String outMan, String inMan, double money) {
+        accountDao.out(outMan, money);
 
-添加新的方法之后，因为我们要查询的是当前用户对应的各自的订单信息，所以我们根据查询到的用户的id来查询相应的订单信息。这个过程就是一对多的查询过程。
-
-③在UserMapper中添加新的方法
-
-```java
-@Select("select * from user")
-@Results({
-        // id = true 表示这个属性是一个主键
-        @Result(id = true, column = "id", property = "id"),
-        @Result(column = "username", property = "username"),
-        @Result(column = "password", property = "password"),
-        @Result(
-                property = "orderList",
-                column = "id",
-                javaType = List.class,
-                many = @Many(select = "com.itheima.mapper.OrderMapper.findByUid")
-        )
-})
-List<User> findUserAndOrderAll();
-```
-
-根据需要，我们首先添加新的方法，然后调用这个方法获取到所有的用户，封装的查询结果中的OrderList中调用上述的findByUid方法，找到当前用户的订单信息集合。
-
-④添加新的测试类
-
-```java
-public class MybatisTest3 {
-
-    private UserMapper mapper;
-
-    @Before
-    public void before() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        mapper = sqlSession.getMapper(UserMapper.class);
-    }
-
-    @Test
-    public void testSave() {
-       List<User> userList = mapper.findUserAndOrderAll();
-        for (User user : userList) {
-            System.out.println(user);
-        }
-    }
-
-}
-```
-
-最后，用上述的测试类打印出测试结果，如下所示：
-
-> User{id=1, username='zhangsan', password='123', birthday=null, orderList=[Order{id=2, orderTime=Wed Apr 03 00:00:00 CST 2019, total=4200.0, user=null}]}
-> User{id=2, username='lisi', password='123', birthday=null, orderList=[Order{id=1, orderTime=Mon Apr 01 00:00:00 CST 2019, total=3500.0, user=null}]}
-> User{id=3, username='wangwu', password='123', birthday=null, orderList=[]}
-> User{id=4, username='zhaoliu', password='123', birthday=null, orderList=[]}
-> User{id=8, username='Tom', password='abc', birthday=null, orderList=[]}
-
-符合需求，打印出所需要的数据信息
-
-### 注解完成多对多开发
-
-![image-20210418172327173](https://i.loli.net/2021/04/18/GOciW3PfgkSanDB.png)
-
-根据这一数据用户模型，我们需要在数据库中创建新的数据表对象。
-
-```mysql
-use test;
-create table role
-(
-id int primary key,
-rolename varchar(255)
-);
-create table user_role
-(
-user_id int,
-role_id int
-);
-alter table user_role add primary key (user_id, role_id);
-```
-
-下面进入Java开发阶段。
-
-①在domain包下创建新的实体对象，Role
-
-```java
-public class Role {
-
-    private int id;
-    private String roleName;
-    private String roleDesc;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleDesc() {
-        return roleDesc;
-    }
-
-    public void setRoleDesc(String roleDesc) {
-        this.roleDesc = roleDesc;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", roleName='" + roleName + '\'' +
-                ", roleDesc='" + roleDesc + '\'' +
-                '}';
+        accountDao.in(inMan, money);
     }
 }
 ```
 
-②根据需求修改用户User的实体属性，添加下面的属性，并添加相应的getter和setter方法
+②在applicationContext.xml文件中配置好注解驱动
 
-```java
-// 表示当前用户具有的角色
-private List<Role> roleList;
-
-@Override
-public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            ", birthday=" + birthday +
-            ", roleList=" + roleList +
-            '}';
-}
+```xml
+<!--事务的注解驱动-->
+<tx:annotation-driven transaction-manager="transactionManager"/>
 ```
 
-根据我们的用户需求，我们需要查询的是多个用户对应的多个角色。一个用户拥有多个角色，一个角色也同时具备多个用户。
+#### 知识要点
 
-```mysql
-select * from user;
-select * from sys_user_role ur, sys_role r where ur.roleId = r.id and ur.userId = --上一句sql语句的结果的id的值 
-```
+![image-20210405232819214](https://i.loli.net/2021/04/05/K79AfINM52zV6k3.png)
 
-③在UserMapper中添加新的方法
+> 平台事务管理器配置（xml方式）
+>
+> 事务通知的配置（@Transactional注解配置）
+>
+> 事务注解驱动的配置（`<tx:annotation-driven/>`）
 
-```java
-@Select("select * from user")
-@Results({
-        @Result(id = true, column = "id", property = "id"),
-        @Result(column = "username", property = "username"),
-        @Result(column = "password", property = "password"),
-        @Result(
-                property = "roleList",
-                column = "id",
-                javaType = List.class,
-                many = @Many(select = "com.itheima.mapper.RoleMapper.findByUid")
-        )
-})
-List<User> findUserAndRoleAll();
-```
 
-④添加新的接口映射文件RoleMapper
 
-```java
-public interface RoleMapper {
-
-    @Select("select * from sys_user_role ur, sys_role r where ur.roleId = r.id and ur.userId = #{uid}")
-    List<Role> findByUid(int uid);
-}
-```
-
-⑤创建新的测试类
-
-```java
-public class MybatisTest4 {
-
-    private UserMapper mapper;
-
-    @Before
-    public void before() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        mapper = sqlSession.getMapper(UserMapper.class);
-    }
-
-    @Test
-    public void test() {
-        List<User> userAndRoleAll = mapper.findUserAndRoleAll();
-        for (User user : userAndRoleAll) {
-            System.out.println(user);
-        }
-    }
-    
-}
-```
-
-运行结果部分如下：
-
-> User{id=1, username='zhangsan', password='123', birthday=null, roleList=[Role{id=1, roleName='院长', roleDesc='负责全面工作'}, Role{id=2, roleName='研究员', roleDesc='课程研发工作'}]}
-> User{id=2, username='lisi', password='123', birthday=null, roleList=[Role{id=2, roleName='研究员', roleDesc='课程研发工作'}, Role{id=3, roleName='讲师', roleDesc='授课工作'}]}
-> User{id=3, username='wangwu', password='123', birthday=null, roleList=[]}
-
-可以看到已经成功地实现了多对多的查询操作。
-
-下面部分从P192开始
-
+> 以上根据[视频](https://www.bilibili.com/video/BV1Bg4y1q7q2?p=81&share_source=copy_web)学习整理而来，第一部分包含1-76P的内容，Spring框架
+>
+> 作者：雨下一整晚real
+>
+> 时间：2021.4.5 16:50:21
+>
+> 未经作者许可禁止转载
