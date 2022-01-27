@@ -36,7 +36,8 @@ module.exports = {
           { text: 'GitHub', link: 'https://github.com/RealBeBetter', icon: 'reco-github' },
           { text: 'Gitee', link: 'https://gitee.com/realBeBetter', icon: 'reco-mayun' },
           { text: 'CSDN', link: 'https://blog.csdn.net/qq_43103529?spm=1000.2115.3001.5343', icon: 'reco-csdn' },
-          { text: '关于我', link: '/docs/about/', icon: 'reco-message' },
+          { text: '关于我', link: '/docs/about/about-me', icon: 'reco-message' },
+          { text: '联系我', link: '/docs/about/contact-me', icon: 'reco-lock' },
         ]
       }
     ],
@@ -55,9 +56,6 @@ module.exports = {
         'JVM-2-1',
         'JVM-2-2',
         'JVM-3',
-      ],
-      '/docs/about/': [
-          '',
       ],
       '/docs/basic/': [
           '',
