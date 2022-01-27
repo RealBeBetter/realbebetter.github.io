@@ -7,11 +7,13 @@
     "build": "vuepress build ."
   },
   "devDependencies": {
+    "@vuepress/plugin-nprogress": "^1.9.7",
     "vuepress": "1.8.2",
     "vuepress-theme-reco": "1.6.10"
   },
   "description": "Resl's personal blog.",
   "dependencies": {
+    "vuepress-plugin-reading-progress": "^1.0.10",
     "vuepress-plugin-serve": "^2.0.4"
   }
 }
