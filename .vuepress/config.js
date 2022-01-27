@@ -3,7 +3,7 @@ module.exports = {
   description: 'Real\'s personal blog .',
   dest: 'public',
   head: [
-    ['link', { rel: 'icon', href: '/favicon' }],
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
   ],
   base: '/blog/', // 部署到 Github 相关的配置
