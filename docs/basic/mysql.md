@@ -5,7 +5,6 @@ tags:
 - MySQL
 ---
 
-# 【面试】MySQL数据库
 
 ## 范式
 

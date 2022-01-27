@@ -7,9 +7,6 @@ tags:
 - Spring
 ---
 
-
-# 【Java】SpringMVC框架
-
 ## 十、Spring集成web环境
 
 ### 基本三层架构环境搭建
