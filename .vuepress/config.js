@@ -78,6 +78,7 @@ module.exports = {
       ],
       '/docs/project/': [
           '',
+          'login-design',
       ],
     },
     type: 'blog',
