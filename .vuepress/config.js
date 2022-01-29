@@ -14,19 +14,22 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/', icon: 'reco-home' },
       { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
-      { text: 'Docs',
+      /*{ text: 'Docs',
         icon: 'reco-message',
         items: [
           { text: 'Frame', link: '/docs/frame/' },
           { text: 'Database', link: '/docs/database/' },
           { text: 'Project', link: '/docs/project/' },
         ]
-      },
+      },*/
       { text: 'Blog',
         icon: 'reco-message',
         items: [
-          { text: 'Java', link: '/docs/java/' },
           { text: 'Basic', link: '/docs/basic/' },
+          { text: 'Database', link: '/docs/database/' },
+          { text: 'Java', link: '/docs/java/' },
+          { text: 'Frame', link: '/docs/frame/' },
+          { text: 'Project', link: '/docs/project/' },
           { text: 'Other', link: '/docs/other/' },
         ]
       },
