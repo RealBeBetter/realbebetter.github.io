@@ -6,7 +6,7 @@ tags:
 - Oracle
 ---
 
-## 1.执行请求的操作时遇到错误: Listener refused the connection with the following error: ORA-12505, TNS:listener doe......
+### 1.执行请求的操作时遇到错误: Listener refused the connection with the following error: ORA-12505, TNS:listener doe......
 
 这次的错误情况是因为本地变量没有创建，打开高级系统设置，在本地环境变量中创建新的环境变量。
 

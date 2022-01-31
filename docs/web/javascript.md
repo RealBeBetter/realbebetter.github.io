@@ -85,14 +85,16 @@ alert("Hello World 外部JS文件")
 
 变量的声明方式是`var`，取的是变量（Variable）的前三个字母
 
-	<script>
-	    // 声明变量 var
-	    var age;
-	    // 变量赋值
-	    age = 18;
-	    // 控制台打印
-	    console.log(age);
-	</script>
+```html
+<script>
+    // 声明变量 var
+    var age;
+    // 变量赋值
+    age = 18;
+    // 控制台打印
+    console.log(age);
+</script>
+```
 
 变量的命名：只允许有字母、数字、美元符号$、下划线_组成；且不能以数字开头；不能是关键字
 

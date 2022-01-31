@@ -1606,5 +1606,3 @@ public class SpringProfileTest {
 所以在使用的时候，@Profile和@ActiveProfiles一般是同时搭配使用的。
 在想要修改的时候，直接修改@ActiveProfiles中的值即可。
 
-## 四、Spring2.5中的注解规范使用
-
