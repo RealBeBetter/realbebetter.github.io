@@ -1,5 +1,5 @@
 ---
-title: 【项目】数据库的分库分表
+title: 【项目】使用Redis优化项目实例
 date: 2021-09-10 00:39:57
 tags:
 - Project
