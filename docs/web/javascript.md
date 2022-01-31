@@ -38,16 +38,26 @@ BOM (Browser Object Model，简称BOM)：是指浏览器对象模型，它提供
 <!-- 行内式的 JavaScript -->
 <input value="按钮" type="button" onclick="alert('Hello, World!')" />
 
+```html
+<!-- 行内式的 JavaScript -->
+<input value="按钮" type="button" onclick="alert('Hello, World!')" />
+```
+
 **嵌入**
 
+```html
 <script>
     /* 内嵌式的 JavaScript */
     alert("Hello World");
 </script>
+```
+
 
 **外部**
 
+```html
 <script src="js/my.js"></script>
+```
 
 ```javascript
 alert("Hello World 外部JS文件")
@@ -55,6 +65,7 @@ alert("Hello World 外部JS文件")
 
 ### js的输入输出
 
+```html
 <script>
     // 用户输入框
     prompt("请输入您的年龄：");
@@ -63,6 +74,8 @@ alert("Hello World 外部JS文件")
     // console 控制台输出
     console.log("控制台能看到的");
 </script>
+```
+
 
 注意：prompt返回的数据类型是string
 
