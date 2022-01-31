@@ -511,7 +511,9 @@ Vue结合网络数据开发内容，我们需要使用到一个网络请求库ax
 
 一个功能强大的网络请求库
 
+```html
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
 
 ```
 axios.get(地址?key=value&key2=values).then(function(response){},function(err){})
