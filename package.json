@@ -7,6 +7,7 @@
     "build": "vuepress build ."
   },
   "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.9.7",
     "@vuepress/plugin-nprogress": "^1.9.7",
     "vuepress": "1.8.2",
     "vuepress-theme-reco": "1.6.10"
