@@ -172,7 +172,7 @@ module.exports = {
     //   appKey: '...', // your appKey
     // }
   },
-  plugins: ['@vuepress/nprogress', 'reading-progress'],
+  plugins: ['reading-progress'],
   markdown: {
     lineNumbers: true
   }
