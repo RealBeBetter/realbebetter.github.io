@@ -85,6 +85,7 @@ module.exports = {
           'zookeeper',
           'spring-annotation-driven-development',
           'spring-boot-basic',
+          'spring-encapsulate-starter',
       ],
       '/docs/database/': [
           '',
