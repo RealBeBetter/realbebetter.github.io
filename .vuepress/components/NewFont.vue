@@ -8,14 +8,31 @@ export default {
   data() {
     return {
       strs: [
+        //  愿中国青年都摆脱冷气，只是向上走，不必听自暴自弃者流的话。能做事的做事，能发声的发声。
+        //  有一分热，发一分光，就令萤火一般，也可以在黑暗里发一点光，不必等候炬火。此后如竟没有炬火，我便是唯一的光。
         {
-          title: "有一份热，发一份光",
+          title: "愿中国青年都摆脱冷气",
+        },
+        {
+          title: "只是向上走",
+        },
+        {
+          title: "不必听自暴自弃者流的话",
+        },
+        {
+          title: "能做事的做事",
+        },
+        {
+          title: "能发声的发声",
+        },
+        {
+          title: "有一分热，发一分光",
           // 停顿的位置
           stop: 5,
           // stop: [4, 13] // 可以是数组，多几个位置停顿
         },
         {
-          title: "就如萤火一般",
+          title: "就令萤火一般",
         },
         {
           title: "也可以在黑暗里发一点光",
@@ -28,9 +45,6 @@ export default {
         },
         {
           title: "我便是唯一的光",
-        },
-        {
-          title: "愿与所有中国青年共勉",
         },
       ],
       // 当前进行到第几行
@@ -144,7 +158,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .hero .description {
   margin: 0;
   padding: 0;
@@ -168,7 +182,7 @@ export default {
 }
 
 .hero .description.ended::after {
-  animation: 1.1s cursor steps(2 ,jump-none) infinite;
+  animation: 1.1s cursor steps(2, jump-none) infinite;
 }
 
 .home-blog .hero .description span {

@@ -103,6 +103,7 @@ module.exports = {
           'optimizing-data-cases-with-redis',
           'community-forum-project',
           'student-exam-system',
+          'git',
       ],
       '/docs/web/': [
           '',
