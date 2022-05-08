@@ -20,7 +20,7 @@ Vue属于JavaScript框架，主要是为了简化DOM操作，响应式数据驱�
   {{message}}
 </div>
 <!-- 生产环境版本，优化了尺寸和速度 -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 <script>
   var app = new Vue ({
     el:"#app",
@@ -511,7 +511,9 @@ Vue结合网络数据开发内容，我们需要使用到一个网络请求库ax
 
 一个功能强大的网络请求库
 
+```html
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
 
 ```
 axios.get(地址?key=value&key2=values).then(function(response){},function(err){})

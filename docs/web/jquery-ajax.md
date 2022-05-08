@@ -23,7 +23,9 @@ JavaScript框架：本质上就是一些js文件，封装了js的原生代码
 
 建议生产环境中使用min.js结尾的版本，体积更小，加载速度更快
 
+```html
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+```
 
 第一个程序：
 
