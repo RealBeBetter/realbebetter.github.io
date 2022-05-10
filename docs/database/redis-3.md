@@ -480,7 +480,7 @@ master宕机该如何解决？
 
   - 参看sentinel.conf
 
-![image-20220401101414060](https://s2.loli.net/2022/04/01/eOgxdMB5smWQrR2.png)
+![image-20220510154355896](https://s2.loli.net/2022/05/10/GrRfY3WAwZXypVT.png)
 
 - 启动哨
 
