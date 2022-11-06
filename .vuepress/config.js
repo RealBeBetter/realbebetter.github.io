@@ -30,6 +30,7 @@ module.exports = {
                     {text: 'Database', link: '/docs/database/'},
                     {text: 'Java', link: '/docs/java/'},
                     {text: 'Frame', link: '/docs/frame/'},
+                    {text: 'middleware', link: '/docs/middleware/'},
                     {text: 'Project', link: '/docs/project/'},
                     {text: 'Web', link: '/docs/web/'},
                     {text: 'Other', link: '/docs/other/'},
