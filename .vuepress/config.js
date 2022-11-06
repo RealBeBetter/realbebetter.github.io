@@ -61,6 +61,7 @@ module.exports = {
           'JVM-2-2',
           'JVM-3',
           'synchronized',
+          'JKD-8-new-features',
           'java-web',
           'java-naming-conventions',
           'implementation-principle-of-HashMap',
@@ -104,6 +105,7 @@ module.exports = {
           'community-forum-project',
           'student-exam-system',
           'git',
+          'JMeter-performance-test',
       ],
       '/docs/web/': [
           '',

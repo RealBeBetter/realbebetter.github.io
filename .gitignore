@@ -1,6 +1,4 @@
 node_modules/
 yarn.lock
 yarn.error
-blog/.vuepress/dist
-blog/docs
-blog/public
+public

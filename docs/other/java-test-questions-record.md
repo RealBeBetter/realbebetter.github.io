@@ -13,7 +13,7 @@ tags:
       SAVING, FIXED, CURRENT;
       private AccountType()
       {
-          System.out.println(“It is a account type”);
+          System.out.println("It is a account type");
       }
   }
   class EnumOne
