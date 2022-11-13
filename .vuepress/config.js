@@ -6,8 +6,8 @@ module.exports = {
         ['link', {rel: 'icon', href: '/favicon.ico'}],
         ['meta', {name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no'}]
     ],
-    base: '/blog/', // 部署到 Github 相关的配置
-    repo: 'https://github.com/RealBeBetter/blog',
+    base: '/', // 部署到 Github 相关的配置
+    repo: 'https://github.com/RealBeBetter/realbebetter.github.io',
     theme: 'reco',
     themeConfig: {
         subSidebar: 'auto', //在所有页面中启用自动生成子侧边栏，原 sidebar 仍然兼容
