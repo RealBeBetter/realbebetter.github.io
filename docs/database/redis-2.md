@@ -12,22 +12,10 @@ tags:
 
 首先需要安装Linux环境，下载VMware虚拟机软件，之后安装运行即可
 
-下载链接
-[VMware Workstation v16.1.1](https://download3.vmware.com/software/wkst/file/VMware-workstation-full-16.1.1-17801498.exe)
-[VMware Workstation v15.5.7](https://download3.vmware.com/software/wkst/file/VMware-workstation-full-15.5.7-17171714.exe)
-[VMware Workstation v12.5.9](https://download3.vmware.com/software/wkst/file/VMware-workstation-full-12.5.9-7535481.exe)
-[VMware Workstation v10.0.7](https://download3.vmware.com/software/wkst/file/VMware-workstation-full-10.0.7-2844087.exe)
-
-激活码
-
-v16.0.0：ZF3R0-FHED2-M80TY-8QYGC-NPKYF
-v15.5.7：FC7D0-D1YDL-M8DXZ-CYPZE-P2AY6
-v12.5.9：ZC3TK-63GE6-481JY-WWW5T-Z7ATA
-v10.0.7：1Z0G9-67285-FZG78-ZL3Q2-234JG
-
 安装激活之后，我们开始安装系统，也就是Linux环境
+。我们先前往对应的官网下载CentOS的镜像文件，之后在VMware里面安装镜像文件，之后启动虚拟机，即可进入Linux环境。
 
-下载CentOS之后进行安装即可
+安装完Linux环境后，我们一般都是使用SecureCRT来连接虚拟机，用命令行对Linux进行操作。设置用户名，去获取到虚拟机的IP地址之后，利用SSH2连接虚拟机即可。
 
 ### 基于CentOS7环境下的安装Redis
 
@@ -57,17 +45,17 @@ make install
 
 运行界面如下所示：
 
-![image-20220401094244613](https://s2.loli.net/2022/04/01/uWVx4TXvgdKrljB.png)
+![image-20210530221200701](https://img-blog.csdnimg.cn/img_convert/ac0d3d0a630e4b1a1ed74ed4c3daa71e.png)
 
-![image-20220401094308278](https://s2.loli.net/2022/04/01/D1tBzpimub87f6c.png)
+![image-20210530221423526](https://img-blog.csdnimg.cn/img_convert/f326240b28c69c7d447dbce984c3119a.png)
 
 安装成功之后的界面如图所示：
 
-![image-20220401094342451](https://s2.loli.net/2022/04/01/GXSn5WkeIA1FmL3.png)
+![image-20210530222529761](https://img-blog.csdnimg.cn/img_convert/4deb826a173c5d0f1a674c80f468bc9a.png)
 
-安装成功之后进入相关的目录，之后克隆一个会话窗口，添加进入redis-cli文件；到这一步就可以正常使用Redis了
+安装成功之后进入相关的目录，之后克隆一个会话窗口，添加进入redis-cli文件；到这一步就可以正常使用Redis了、
 
-![image-20220401094412654](https://s2.loli.net/2022/04/01/xTcpuZmLriNtYRB.png)
+![image-20210530223104902](https://img-blog.csdnimg.cn/img_convert/b7dacf51b77d99c25c5d42fbe254c099.png)
 
 ### Redis指定端口启动
 
@@ -75,23 +63,23 @@ make install
 
 进入指定文件夹
 
-```shell
+```
 cd redis-4.0.0/
 ```
 
 进入指定src目录
 
-```shell
+```
 cd src
 ```
 
 由指定端口创建服务端
 
-```shell
+```
 redis-server --port 6380
 ```
 
-![image-20220401094440098](https://s2.loli.net/2022/04/01/Gz5dp6tVv4oYwg7.png)
+![image-20210530223241726](https://img-blog.csdnimg.cn/img_convert/2ea2a229053edfdd52195580df8296a3.png)
 
 **进入指定端口号的服务**
 
@@ -113,7 +101,7 @@ cd src
 redis-cli -p 6380
 ```
 
-![image-20220401094521044](https://s2.loli.net/2022/04/01/ZUPT94pg27e6HOi.png)
+![image-20210530223547882](https://img-blog.csdnimg.cn/img_convert/6854777ab95cccad5fdf829a3afa5b90.png)
 
 ### 指定配置文件环境启动Redis
 
@@ -137,7 +125,7 @@ cat redis.conf | grep -v "#" | grep -v "^$" > redis-6379.conf
 
 这一步进行完毕之后，可以看到在目录下新增的配置文件
 
-![image-20220401094603530](https://s2.loli.net/2022/04/01/EZclCTIxQ2p9HA1.png)
+![image-20210530224604863](https://img-blog.csdnimg.cn/img_convert/0ea81b88aa9c309ab333235d5ed81ff8.png)
 
 接下来我们需要编译这个新建的配置文件，使用命令
 
@@ -151,33 +139,33 @@ vim redis-6379.conf
 
 最后保留所需要的项目，切换成INSERT模式进行修改；用`:wq`命令保存（按下ESC键切换之后输入）
 
-![image-20220401094637696](https://s2.loli.net/2022/04/01/q7f65eLhlS9XKJ4.png)
+![image-20210530230323894](https://img-blog.csdnimg.cn/img_convert/fe5be6aaff2198b486da19251af9b263.png)
 
 之后结束编写文件。接下来就可以使用命令
 
-```shell
+```
 redis-server redis-6379.conf
 ```
 
 在后台启动server服务器端，用指令
 
-```shell
+```
 ps -ef | grep redis-
 ```
 
 查看redis的启动情况
 
-![image-20220401094833803](https://s2.loli.net/2022/04/01/ZrEUP6QFbc5dw8W.png)
+![image-20210530230550245](https://img-blog.csdnimg.cn/img_convert/3184ae3a357e91f2d1b2f68e25e54090.png)
 
 之后在另一个窗口，可以看到Redis的启动情况，用指令进入客户端看看是否能够真正运行指令即可
 
-![image-20220401094859899](https://s2.loli.net/2022/04/01/Dz3JgmW5AOvRp4h.png)
+![image-20210530230738821](https://img-blog.csdnimg.cn/img_convert/347542d86f2c0bca662952fc52e640f3.png)
 
 ### 配置文件启动目录管理
 
 需求：在下面的目录中创建一个专门存放conf文件的目录
 
-![image-20220401094930494](https://s2.loli.net/2022/04/01/7JzC2OE6HcXFmuR.png)
+![image-20210530231050632](https://img-blog.csdnimg.cn/img_convert/1991ecf20168c3170806faf91843ea4e.png)
 
 ①在该目录下使用指令创建名为conf的目录
 
@@ -191,7 +179,7 @@ mkdir conf
 mv redis-6379.conf conf
 ```
 
-![image-20220401095018338](https://s2.loli.net/2022/04/01/nLHfO9QZThyKouv.png)
+![image-20210530231315036](https://img-blog.csdnimg.cn/img_convert/a52649ab3a94b544a73fe9866481ae81.png)
 
 ③要是想创建多个redis服务，直接使用命令将文件复制到同一个文件夹
 
@@ -282,21 +270,21 @@ logfile "6***.log”
   - 将当前数据状态进行保存，快照形式，存储数据结果，存储格式简单，关注点在数据
   - 将数据的操作过程进行保存，日志形式，存储操作过程，存储格式复杂，关注点在数据的操作过程
 
-![image-20220401095046382](https://s2.loli.net/2022/04/01/OEokcdb7TXQ9vuK.png)
+![image-20210530232612661](https://img-blog.csdnimg.cn/img_convert/c0ed5add28952eae5813d36b4b794ebd.png)
 
 ### RDB
 
 命令
 
-```shell
+```
 save
 ```
 
 作用：手动执行一次保存操作
 
-![image-20220401095112061](https://s2.loli.net/2022/04/01/Xfwo3zBx9KHJ7qk.png)
+![image-20210530233010159](https://img-blog.csdnimg.cn/img_convert/c540ff5ff5cb3b91480a7cf5627b1040.png)
 
-![image-20220401095130037](https://s2.loli.net/2022/04/01/1JPGoUhvAgeH8wt.png)
+![image-20210530233549826](https://img-blog.csdnimg.cn/img_convert/42aa303650f9b175f84997e9b3ab215a.png)
 
 其中.rdb结尾的文件就是RDB格式保存的快照形式。
 
@@ -325,7 +313,7 @@ save
 
 ***save指令的执行会阻塞当前Redis服务器***，直到当前RDB过程完成为止，有可能会造成长时间阻塞，线上环境不建议使用。
 
-![image-20220401095200019](https://s2.loli.net/2022/04/01/LzOxJyCjeI6d4iv.png)
+![image-20210530235913553](https://img-blog.csdnimg.cn/img_convert/a7befee71903c0331fa4a6fb9f503f9e.png)
 
 **解决方案**
 
@@ -341,7 +329,7 @@ bgsave
 
 #### bgsave指令工作原理
 
-![image-20220401095234125](https://s2.loli.net/2022/04/01/3AoO9WBlkIt7N8H.png)
+![image-20210531000309395](https://img-blog.csdnimg.cn/img_convert/095c00943b70f3cc6a4eafdbdd034e62.png)
 
 **注意**
 
@@ -381,7 +369,7 @@ save second changes
 
 - 原理
 
-![image-20220401095311000](https://s2.loli.net/2022/04/01/3MrQ2CapnyT9Fou.png)
+![image-20210531002534234](https://img-blog.csdnimg.cn/img_convert/50dfd5ea6e64f6eec483609eb104fd8c.png)
 
 - 注意
   - save配置要根据实际业务情况进行设置，频度过高或过低都会出现性能问题，结果可能是灾难性的
@@ -390,7 +378,7 @@ save second changes
 
 #### RDB三种启动方法对比
 
-![image-20220401095418507](https://s2.loli.net/2022/04/01/fCFshgcTtqaZ3Q2.png)
+![image-20210531002617082](https://img-blog.csdnimg.cn/img_convert/628307bd492f8118a63a0be8e4d118c0.png)
 
 其中save配置，运行的还是bgsave指令，只不过方法不一样。
 
@@ -446,7 +434,7 @@ save second changes
 
 #### AOF写数据过程
 
-![image-20220401095450649](https://s2.loli.net/2022/04/01/Tvt2pJEoqU9MPci.png)
+![image-20210531004115933](https://img-blog.csdnimg.cn/img_convert/782aa0032bb1431609ec4be9f334f35a.png)
 
 **AOF写数据三种策略（appendfsync）**
 
@@ -504,7 +492,7 @@ save second changes
 
 如果遇到多条指令同时重复写，但是最终生效的指令可以将之合并，AOF将如何解决？
 
-![image-20220401095528919](https://s2.loli.net/2022/04/01/fxkbBeNziP6QcW7.png)
+![image-20210531005759572](https://img-blog.csdnimg.cn/img_convert/2ee6c21ca566c0f6785572d770b4ec43.png)
 
 解决方案：AOF重写
 
@@ -553,23 +541,23 @@ aof_base_size
 aof_current_size > auto-aof-rewrite-min-size
 ```
 
-![image-20220401095550226](https://s2.loli.net/2022/04/01/rusS8ftAQHX6ldB.png)
+![image-20210531010930472](https://img-blog.csdnimg.cn/img_convert/aa2a22bafd0b0419228fead41df82c6d.png)
 
 **bgrewriteaof指令的运行原理**
 
-![image-20220401095608664](https://s2.loli.net/2022/04/01/m5DrfjFgyTqkuK9.png)
+![image-20210531010716066](https://img-blog.csdnimg.cn/img_convert/42c65e2c5ccfaa5590582d7c315ccf47.png)
 
 与之前的bgsave指令相似。
 
 **AOF重写的工作原理**
 
-![image-20220401095629888](https://s2.loli.net/2022/04/01/Wp3ulbA5ad8wmHq.png)
+![image-20210531011558953](https://img-blog.csdnimg.cn/img_convert/0c9a748a0a62feb38cea6dbca4ef6791.png)
 
-![image-20220401095651541](https://s2.loli.net/2022/04/01/iD15wzMWvgfOj47.png)
+![image-20210531011716732](https://img-blog.csdnimg.cn/img_convert/77d7dbf9b6343f467f16f70a6ef6dd00.png)
 
 ### RDB和AOF的区别
 
-![image-20220401095735923](https://s2.loli.net/2022/04/01/PWls2em6tRgo4Ad.png)
+![image-20210531011801740](https://img-blog.csdnimg.cn/img_convert/dab6c6ed8aec0535b28f026d840d239b.png)
 
 **RDB和AOF的选择**
 
@@ -610,7 +598,7 @@ redis事务就是一个命令执行的队列，将一系列预定义命令包装
 
 事务：**一个队列中，一次性、顺序性、排他性的执行一系列命令**
 
-![image-20220401095819934](https://s2.loli.net/2022/04/01/RA9jkaQ2p5VzFvb.png)
+![image-20210531013608749](https://img-blog.csdnimg.cn/img_convert/e9b657ddd5916039b7acf104254383d2.png)
 
 ### 事务基本操作
 
@@ -633,12 +621,11 @@ redis事务就是一个命令执行的队列，将一系列预定义命令包装
     ```
 
 - 作用
-
   - 设定事务的结束位置，同时执行事务。与multi成对出现， 成对使用
 
 事务的执行结果
 
-![image-20220401095850839](https://s2.loli.net/2022/04/01/9RGIypYNcz1drBf.png)
+![image-20210531014202895](https://img-blog.csdnimg.cn/img_convert/10b28666cf8f95291a5653ce7a02dbca.png)
 
 开启事务之后，会将`multi`和`exec`之间的内容添加进队列，这个时候redis返回的值是一个`queued`，表示已经队列化了。执行完`exec`指令之后，会将事务中的各个指令都按照入队的顺序打印执行结果。
 
@@ -658,13 +645,13 @@ redis事务就是一个命令执行的队列，将一系列预定义命令包装
 
   - 终止当前事务的定义，发生在multi之后，exec之前
 
-![image-20220401095939727](https://s2.loli.net/2022/04/01/Aw86iclbomraVUu.png)
+![image-20210531014700215](https://img-blog.csdnimg.cn/img_convert/63ea4d968dfb043a31f05f3212fd31b0.png)
 
 当执行了`discard`指令之后，相当于从`multi`指令开始一直到`discard`指令之间定义的事务都全部作废。
 
 #### 事务的工作流程
 
-![image-20220401100120130](https://s2.loli.net/2022/04/01/zFa9WYbQdDsrg5A.png)
+![image-20210531120735277](https://img-blog.csdnimg.cn/img_convert/aeebcd1fcab0cc5168973d3acf813cb2.png)
 
 **注意事项**
 
@@ -711,7 +698,7 @@ redis事务就是一个命令执行的队列，将一系列预定义命令包装
 - 对 key 添加监视锁，在执行exec前如果key发生了变化，终止事务执行
 
   - ```
-    watch key1 [key2……] 
+     watch key1 [key2……] 
     ```
 
 - 取消对所有 key 的监视
@@ -728,7 +715,7 @@ redis 应用基于状态控制的批量任务执行
 
 必须在开启事务之前对**key**开启监听锁，在开启事务之后，中途不可以开启监听锁。
 
-![image-20220401100142783](https://s2.loli.net/2022/04/01/95EU2SuyRmXdNxf.png)
+![image-20210531122532913](https://img-blog.csdnimg.cn/img_convert/85bb87f83d68e4e004045b2501cd5b48.png)
 
 #### 分布式锁
 
@@ -750,10 +737,8 @@ redis 应用基于状态控制的批量任务执行
     ```
 
 - 利用setnx命令的返回值特征，有值则返回设置失败，无值则返回设置成功
-
   - 对于返回设置成功的，拥有控制权，进行下一步的具体业务操作
   - 对于返回设置失败的，不具有控制权，排队或等待操作完毕通过**del操作**释放锁
-
 - 注意：上述解决方案是一种设计概念，依赖规范保障，具有风险性
 
 **建议**
@@ -813,7 +798,7 @@ redis 应用基于分布式锁对应的场景控制
 
 #### 时效性数据的存储策略
 
-![image-20220401100206259](https://s2.loli.net/2022/04/01/SJ1ZFRnoBLPhOQj.png)
+![image-20210531124923178](https://img-blog.csdnimg.cn/img_convert/3aa643b884f05857b8f9d9e0e42aede9.png)
 
 #### 数据删除策略的目标
 
@@ -864,7 +849,7 @@ redis 应用基于分布式锁对应的场景控制
 - Redis使用内存存储数据，在执行每一个命令前，会调用freeMemoryIfNeeded()检测内存是否充足。如果内存不满足新加入数据的最低存储要求，redis要临时删除一些数据为当前指令清理存储空间。清理数据的策略称为逐出算法。
 - 注意：逐出数据的过程不是100%能够清理出足够的可使用的内存空间，如果不成功则反复执行。当对所有数据尝试完毕后，如果不能达到内存清理的要求，将出现错误信息。
 
-![image-20220401100229807](https://s2.loli.net/2022/04/01/NuTOQDptY189KlF.png)
+![image-20210531135018488](https://img-blog.csdnimg.cn/img_convert/605bbd404169d750623dcc497c36d162.png)
 
 #### 影响数据逐出的相关配置
 
@@ -906,16 +891,13 @@ redis 应用基于分布式锁对应的场景控制
 - 放弃数据驱逐
   - ⑧ no-enviction（驱逐）：禁止驱逐数据（redis4.0中默认策略），会引发错误OOM（Out Of Memory）
 
-![image-20220401100251821](https://s2.loli.net/2022/04/01/rohX1JHmDRFVQgz.png)
+![image-20210531135818254](https://img-blog.csdnimg.cn/img_convert/4af70abdfb40d90e5144c32cc35b1f5e.png)
 
 #### 调优策略
 
 使用INFO命令输出监控信息，查询缓存 hit 和 miss 的次数，根据业务需求调优Redis配置
 
-```shell
-keyspace_hits:10
-keyspace_misses:1
-```
+![image-20210531135708069](https://img-blog.csdnimg.cn/img_convert/36875d32ce29624d1238aa03bcacfc14.png)
 
 ## 十、redis.conf
 
@@ -1026,7 +1008,7 @@ setbit key offset value
 
   - and：交
 
-  - or：并
+  -  or：并
 
   - not：非
 
@@ -1106,7 +1088,7 @@ geoadd key longitude latitude member [longitude latitude member ...]
 geopos key member [member ...]
 ```
 
-![image-20220401100352494](https://s2.loli.net/2022/04/01/lmfsOhU9yV2kpjP.png)
+![image-20210531150217319](https://img-blog.csdnimg.cn/img_convert/dc2b230e986a2fe170a7ee6c4e1173a9.png)
 
 计算坐标点距离
 
@@ -1114,7 +1096,7 @@ geopos key member [member ...]
 geodist key member1 member2 [unit]
 ```
 
-![image-20220401100414089](https://s2.loli.net/2022/04/01/C3lIDxsVaAqdhZc.png)
+![image-20210531150246398](https://img-blog.csdnimg.cn/img_convert/986ab7fd77ca0a95b9ac0800f45d4746.png)
 
 #### 扩展操作
 
