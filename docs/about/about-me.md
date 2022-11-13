@@ -11,7 +11,7 @@ tags:
 
 如果你也想要开发出一款和博主一样的博客网站，请参考：
 
-> [如何搭建一个这样的网站](https://realBeBetter.github.io/blog/docs/other)。
+> [如何搭建一个这样的网站](https://realBeBetter.github.io/docs/other)。
 
 > 更新：2022-04-29
 >
