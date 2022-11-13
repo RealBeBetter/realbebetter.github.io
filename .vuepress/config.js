@@ -22,6 +22,14 @@ module.exports = {
                 { text: 'Project', link: '/docs/project/' },
               ]
             },*/
+            // 图标icon网站：https://vuepress-theme-reco.recoluan.com/views/1.x/configJs.html
+            {
+                text: 'Daily',
+                icon: 'reco-blog',
+                items: [
+                    {text: '2022', link: '/docs/2022/'},
+                ]
+            },
             {
                 text: 'Blog',
                 icon: 'reco-message',
@@ -53,6 +61,9 @@ module.exports = {
             }
         ],
         sidebar: {
+            '/daily/2022/': [
+                ''
+            ],
             '/docs/basic/': [
                 '',
                 'operation-system',
