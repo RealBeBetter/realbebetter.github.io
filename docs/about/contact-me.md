@@ -9,4 +9,6 @@ keys:
 
 If you want to contact me, you can leave me a message through [Real (realBeBetter) - Gitee.com](https://gitee.com/realBeBetter) or [RealBeBetter (github.com)](https://github.com/RealBeBetter).
 
-This is just a test link.
+如果你想要联系我，可以通过 Gitee 或者 Github 找到我的邮箱。或者扫描下方的二维码加联系方式：
+
+![image-20221114202821352](https://fastly.jsdelivr.net/gh/RealBeBetter/image/img/202211142028507.png)
