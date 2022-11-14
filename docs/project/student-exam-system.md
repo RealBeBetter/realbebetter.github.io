@@ -5,6 +5,9 @@ tags:
 - Project
 ---
 
+> 项目现已发布到 Gitee 平台，可以直接获取源代码，欢迎 Star 收藏！
+> 项目地址：https://gitee.com/realBeBetter/exam-system
+
 **阅前注意**
 
 > 系统中所有密码均已默认设置为123456
@@ -17,30 +20,30 @@ tags:
 ## 一、数据库设计
 
 - 数据库
-  
+
   - 考试系统 **ExamSystem**
-  
+
 - 数据表
 
   - 学生表 **STUDENT**
 
     - ```mysql
-        create table student
-        (
-            sname varchar(10) not null,				 -- 姓名
-            sno varchar(20) primary key not null,  	 -- 学号
-            password varchar(20) not null,	  		 -- 密码
-            ssex varchar(4) not null,				 -- 性别
-            sage varchar(4) not null,				 -- 年龄
-            major varchar(10) not null,				 -- 专业
-            department varchar(10) not null			 -- 系别
-        );
-        ```
+      create table student
+      (
+          sname varchar(10) not null,				 -- 姓名
+          sno varchar(20) primary key not null,  	 -- 学号
+          password varchar(20) not null,	  		 -- 密码
+          ssex varchar(4) not null,				 -- 性别
+          sage varchar(4) not null,				 -- 年龄
+          major varchar(10) not null,				 -- 专业
+          department varchar(10) not null			 -- 系别
+      );
+      ```
 
   - 教师表 **TEACHER**
 
     - ```mysql
-    create table teacher
+      create table teacher
       (
           tno varchar(20) not null primary key, 		-- 教师工号
           password varchar(20) not null,				-- 教师密码
@@ -48,7 +51,7 @@ tags:
           tsex varchar(4) not null					-- 教师性别
       );
       ```
-    
+
   - 学生课程表 **SC**
 
     - ```mysql
@@ -59,7 +62,7 @@ tags:
           foreign key(sno) references student(sno)
       );
       ```
-    
+
   - 题目答案表 **TEST**
 
     - ```mysql
@@ -109,7 +112,7 @@ create table sc
 (
     sno varchar(20) not null primary key,		
     score int not null,							
-    foreign key(sno) references student(sno),
+    foreign key(sno) references student(sno)
 );
 
 create table test
@@ -145,8 +148,8 @@ create table administrator
 
 **实现功能顺序** V2.0
 
-- [x] 用户选择身份   **SelectIdentity**     
-  - [x] 用户为学生，选择学生注册/登录 【选做：添加回到上一级菜单】 **StudentSelect**   
+- [x] 用户选择身份   **SelectIdentity**
+  - [x] 用户为学生，选择学生注册/登录 【选做：添加回到上一级菜单】 **StudentSelect**
     - [x] 学生注册，存储学生信息  **StudentRegister**
     - [x] 学生登录，登录成功则开始考试答题【选做：可以提供更改密码功能】**StudentLogin**
       - [x] 学生答题同时开始考试倒计时  **MainView**  **Countdown**
@@ -604,8 +607,7 @@ public void actionPerformed(ActionEvent actionEvent) {
 
 ### 项目结构
 
-![image-20201229214416002](https://i.loli.net/2020/12/29/GDfOKk1sjPWmurJ.png)
-
+![image-20201229214416002](https://img-blog.csdnimg.cn/img_convert/28dedd5e769434753cc61f60d256e10b.png)
 ### jdbc.properties
 
 ```properties
@@ -846,21 +848,6 @@ public class SelectIdentity extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        /*try {
-            JFrame.setDefaultLookAndFeelDecorated(true);
-            UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-            new CheckIdentity();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         new SelectIdentity();
     }
 
@@ -2959,3 +2946,6 @@ class AddQuestion extends JFrame implements ActionListener {
 }
 ```
 
+记载于2020.12.29
+Java课程设计报告
+Author：雨下一整晚real
