@@ -135,7 +135,6 @@ module.exports = {
             ],
             '/docs/middleware/': [
                 '',
-                'redis-how-to-resolve-hot-keys',
             ],
         },
         type: 'blog',
