@@ -3,6 +3,8 @@ title: 【Daily】2022
 date: 2022-11-13
 tags:
 - Daily
+keys:
+- 5aa5cd5388c8991610adda9772f22bdc
 ---
 
 2022 是平凡的一年，但对我来说也是非常不平凡的一年。
