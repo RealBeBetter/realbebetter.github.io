@@ -21,7 +21,7 @@ jobs:
         node-version: [12]
     steps:
       # 拉取 github 仓库代码
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@github.com:RealBeBetter/realbebetter.github.io
       # 设定 node 环境
       - uses: actions/setup-node@v3
         with:
