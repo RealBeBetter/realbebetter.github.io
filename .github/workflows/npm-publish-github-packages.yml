@@ -44,7 +44,7 @@ jobs:
           # 指定推送到的远程分支
           BRANCH: RealBeBetter/realbebetter.github.io@gh-pages
           # 指定构建之后的产物要推送哪个目录的代码
-          # FOLDER: build
+          FOLDER: public
       - run: npm publish
         env:
           # 刚刚设置的 NPM_TOKEN
