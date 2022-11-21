@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - master
-      - gh-pages
 
 # 按顺序运行作业
 jobs:
@@ -32,13 +31,13 @@ jobs:
       - name: Install dependencies 📦️
         run: npm install
       # 执行构建步骤
-      - name: 构建
+      - name: build
         run: |
           npm run build
       # 执行部署
       - name: deploy
         # 这个 action 会根据配置自动推送代码到指定分支
-        uses: RealBeBetter/realbebetter.github.io@master
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           # 指定密钥，即在第一步中设置的
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
