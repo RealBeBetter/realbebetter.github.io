@@ -80,6 +80,7 @@ module.exports = {
                 'basic-7',
                 'basic-8',
                 'basic-9',
+                'java-jvm-gc',
                 'jvm-1',
                 'jvm-2-1',
                 'jvm-2-2',
