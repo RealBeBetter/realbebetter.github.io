@@ -63,7 +63,9 @@ module.exports = {
         ],
         sidebar: {
             '/daily/2022/': [
-                ''
+                '',
+                '2022-11',
+                '2022-12',
             ],
             '/docs/basic/': [
                 '',
