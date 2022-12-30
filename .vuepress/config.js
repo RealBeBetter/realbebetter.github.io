@@ -182,25 +182,30 @@ module.exports = {
         // 备案号
         record: '2021-2022',
         // 项目开始时间
-        startYear: '2021-10-07'
-        /**
-         * 密钥 (if your blog is private)
-         */
+        startYear: '2021-10-07',
 
+        // 密钥 (if your blog is private)
         // keyPage: {
         //   keys: ['your password'],
         //   color: '#42b983',
         //   lineColor: '#42b983'
         // },
 
-        /**
-         * valine 设置 (if you need valine comment )
-         */
-
-        // valineConfig: {
-        //   appId: '...',// your appId
-        //   appKey: '...', // your appKey
-        // }
+        // valine 设置 (if you need valine comment )
+        valineConfig: {
+            // your appId
+            appId: 'AlqH0Yl6KKwhmaCu0z6YxLoS-gzGzoHsz',
+            // your appKey
+            appKey: 'v89tbnuWKbz1YwsHPhsedmsJ',
+            // 评论框占位符
+            placeholder: '尽情留下你想说的话吧~',
+            // 评论用户的头像类型
+            avatar: 'wavatar',
+            // 代码高亮
+            highlight: true,
+            // 记录评论者的IP
+            recordIP: true,
+        },
     },
     plugins: ['reading-progress', '@vuepress/nprogress', '@vuepress/back-to-top'],
     markdown: {
