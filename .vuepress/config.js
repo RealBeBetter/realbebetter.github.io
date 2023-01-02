@@ -66,6 +66,7 @@ module.exports = {
                 '',
                 '2022-11',
                 '2022-12',
+                '2022-total',
             ],
             '/docs/basic/': [
                 '',
