@@ -10,7 +10,7 @@ module.exports = {
     repo: 'https://github.com/RealBeBetter/realbebetter.github.io',
     theme: 'reco',
     themeConfig: {
-        mode: 'dark', // 默认 auto，auto 跟随系统，dark 暗色模式，light 亮色模式
+        mode: 'auto', // 默认 auto，auto 跟随系统，dark 暗色模式，light 亮色模式
         subSidebar: 'auto', //在所有页面中启用自动生成子侧边栏，原 sidebar 仍然兼容
         nav: [
             {text: 'Home', link: '/', icon: 'reco-home'},
@@ -29,6 +29,7 @@ module.exports = {
                 icon: 'reco-blog',
                 items: [
                     {text: '2022', link: '/docs/2022/'},
+                    {text: '2023', link: '/docs/2023/'},
                 ]
             },
             {
@@ -67,6 +68,10 @@ module.exports = {
                 '2022-11',
                 '2022-12',
                 '2022-total',
+            ],
+            '/docs/2023/': [
+                '',
+                '2023-01',
             ],
             '/docs/basic/': [
                 '',
