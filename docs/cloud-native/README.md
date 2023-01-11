@@ -300,7 +300,7 @@ Kubernates 能取代的是 Docker 中的容器引擎 Container-Engine，并不�
 ![image.png](https://img-blog.csdnimg.cn/img_convert/2b9bfd5ccf904da3ff6d6aa0e7a54bcf.png)
 Kubernates 更多做的是容器编排。即在部署容器的时候，相比原有的 Docker-Container-Engine 可以更好地做到负载均衡、故障转移等。
 
-[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-gSi3aduW-1673453139200)(null)]
+![image-20230112004050931](https://img-blog.csdnimg.cn/img_convert/ca9272bb43868e0e82f04423fd1cf935.png)
 
 > 参考资料：[https://kubernetes.io/docs/concepts/overview/components](https://kubernetes.io/docs/concepts/overview/components/)/
 
