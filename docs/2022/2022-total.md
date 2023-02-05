@@ -3,6 +3,8 @@ title: 【Daily】2022年度总结
 date: 2023-01-02
 tags:
 - Daily
+keys:
+- 5aa5cd5388c8991610adda9772f22bdc
 ---
 
 2022 年结束，2023 年伊始。
