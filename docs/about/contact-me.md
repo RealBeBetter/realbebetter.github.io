@@ -9,7 +9,9 @@ If you want to contact me, you can leave me a message through [Real (realBeBette
 
 如果你想要联系我，可以通过 `Gitee` 或者 `Github` 找到我的邮箱：swrely@qq.com
 
-**目前全平台的 Id 为：雨下一整晚Real**。您可以通过以下平台找到我的 Id，包括但不限于：
+**目前全平台的 Id 为：雨下一整晚Real**。关于这个名字的由来，前面是我喜欢的周董的一首歌；后面是我的微信昵称。其实名字本没有什么特殊的含义，只是当时着急用，用着用着就习惯了。后面等到有想要更改的想法时，却已经有心无力了，沉没成本太高，认识这个 ID 的朋友也不少了。暂时还没有以新的形象出现在大家面前，所以就一直用下去吧。
+
+您可以通过以下平台找到我的 Id，包括但不限于：
 
 - CSDN：[雨下一整晚real的博客](https://blog.csdn.net/qq_43103529?spm=1000.2115.3001.5343)
 - Gitee：[Real (realBeBetter) - Gitee.com](https://gitee.com/realBeBetter)、Github： [RealBeBetter (github.com)](https://github.com/RealBeBetter)
